@@ -1,9 +1,13 @@
 <?php
-
 /**
  * @package Pods
- *
+ * @category Object Types
+ */
+
+/**
  * Class Pods_Object_Group
+ *
+ * @property Pods_Object_Field[] $fields Fields
  */
 class Pods_Object_Group extends
 	Pods_Object {
@@ -254,6 +258,14 @@ class Pods_Object_Group extends
 			'advanced'         => __( 'Advanced', 'pods' )
 		);
 
+
+		/**
+		 * Fire off the setup for the Pods edit field tabs
+		 *
+		 * @param array $tabs The Pods edit field tabs setup
+		 *
+		 * @since 2.4.0
+		 */
 		$tabs = apply_filters( 'pods_admin_setup_edit_field_tabs', array(), $this );
 
 		$tabs = array_merge( $core_tabs, $tabs );
@@ -528,7 +540,7 @@ class Pods_Object_Group extends
 		}
 
 		$tableless_field_types    = Pods_Form::tableless_field_types();
-		$simple_tableless_objects = Pods_Form::field_method( 'pick', 'simple_objects' );
+		$simple_tableless_objects = Pods_Form::simple_tableless_objects();
 
 		$params = (object) $options;
 

@@ -1,12 +1,18 @@
+<?php
+/**
+ * @package  Pods
+ * @category Display
+ */
+?>
 <form method="get" class="pods-form-filters pods-form-filters-<?php echo esc_attr( $pod->pod ); ?>" action="<?php echo esc_attr( $action ); ?>">
 	<input type="hidden" name="type" value="<?php echo esc_attr( $pod->pod ); ?>" />
 
 	<?php
 	foreach ( $fields as $name => $field ) {
-		if ( 'pick' == $field['type'] && 'pick-custom' != $field['pick_object'] && ! empty( $field['pick_object'] ) ) {
-			$field['pick_format_type']   = 'single';
-			$field['pick_format_single'] = 'dropdown';
-			$field['pick_select_text']   = '-- ' . $field['label'] . ' --';
+		if ( 'pick' == $field[ 'type' ] && 'pick-custom' != $field[ 'pick_object' ] && ! empty( $field[ 'pick_object' ] ) ) {
+			$field[ 'pick_format_type' ] = 'single';
+			$field[ 'pick_format_single' ] = 'dropdown';
+			$field[ 'pick_select_text' ] = '-- ' . $field[ 'label' ] . ' --';
 
 			$filter = pods_v( 'filter_' . $name, 'get', '' );
 

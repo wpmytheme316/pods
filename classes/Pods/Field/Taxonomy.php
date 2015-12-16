@@ -1,13 +1,12 @@
 <?php
-
 /**
- * @package Pods\Fields
+ * @package Pods
+ * @category Field Types
  */
-class Pods_Field_Taxonomy extends
-	Pods_Field_Pick {
+class Pods_Field_Taxonomy extends Pods_Field_Pick {
 
 	/**
-	 * {@inheritDocs}
+	 * {@inheritdoc}
 	 */
 	public function __construct() {
 		// this field type just maps to the relationship field

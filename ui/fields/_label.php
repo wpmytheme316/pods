@@ -1,3 +1,9 @@
+<?php
+/**
+ * @package  Pods
+ * @category Field Types
+ */
+?>
 <label<?php Pods_Form::attributes( $attributes, $name, 'label' ); ?>>
 	<?php
 	if ( apply_filters( 'pods_form_ui_label_allow_html', true, $options ) ) {
@@ -6,7 +12,7 @@
 		echo esc_html( $label );
 	}
 
-	if ( 1 == pods_var( 'required', $options, pods_v( 'options', $options, $options ) ) ) {
+	if ( 1 == pods_v( 'required', $options ) ) {
 		echo ' <abbr title="required" class="required">*</abbr>';
 	}
 

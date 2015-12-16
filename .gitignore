@@ -15,27 +15,29 @@ $RECYCLE.BIN/
 *.sublime-project
 *.sublime-workspace
 
-# PhpStorm
-.idea
-
-# Eclipse
-*.pydevproject
-.project
-.metadata
-bin/
-build/
-tmp/
-tests/clover.xml
-
 # Dropbox
 .dropbox
 .dropbox.attr
 
 # SASS
-.sass-cache/*
+/.sass-cache/
 
-# Node
-node_modules/*
+# PhpStorm
+/.idea/
 
-# WP Tests dir
-wp-tests
+# Eclipse
+*.pydevproject
+.project
+.metadata
+/build/
+/tmp/
+tests/clover.xml
+
+# NPM / Composer
+composer.lock
+/node_modules/
+/vendor/
+npm-debug.log
+
+# PHPunit config
+phpunit.xml

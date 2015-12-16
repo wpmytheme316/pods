@@ -1,6 +1,8 @@
 <?php
-
 /**
+ * @package Pods
+ * @category Utilities
+ *
  * Class PodsClassLoader, PSR-0 compatible autoloader.
  *
  * Example usage:
@@ -133,9 +135,28 @@ class Pods_ClassLoader {
 		}
 
 		if ( $file = $this->findFile( $className ) ) {
-			require $file;
+			require_once $file;
 
 			return true;
+		}
+		// Fallback for Pods 1.x and 2.x classes
+		elseif ( 0 === strpos( $className, 'Pod' ) ) {
+			$two_dot_oh = str_replace( 'Pods', 'Pods_', $className );
+			$one_dot_oh = str_replace( 'Pod', 'Pods_', $className );
+
+			if ( $file = $this->findFile( $two_dot_oh ) ) {
+				$this->forwardClass( $two_dot_oh, $className );
+
+				require_once $file;
+
+				return true;
+			} elseif ( $file = $this->findFile( $one_dot_oh ) ) {
+				$this->forwardClass( $one_dot_oh, $className );
+
+				require_once $file;
+
+				return true;
+			}
 		}
 
 		return null;
@@ -189,18 +210,20 @@ class Pods_ClassLoader {
 	 * @return void
 	 */
 	public function forwardClass( $fromClass, $toClass ) {
+		if ( ! class_exists( $fromClass ) ) {
+			eval( "
+				class {$fromClass} extends {$toClass} {
 
-		eval( "
-			class {$fromClass} extends {$toClass} {
+					public static \$classLoader_forward_class = '{$fromClass}';
 
-				public function __construct() {
+					public function __construct() {
 
 					parent::__construct();
 
-				}
+					}
 
 			}
-		" );
-
+			" );
+		}
 	}
 }

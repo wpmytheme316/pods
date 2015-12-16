@@ -1,10 +1,10 @@
 === Pods - Custom Content Types and Fields ===
-Contributors: sc0ttkclark, pglewis, curtismchale, Desertsnowman, dan.stefan, Shelob9, mikedamage, logikal16, jchristopher
+Contributors: sc0ttkclark, pglewis, Shelob9, jimtrue, jamesgol, clubduece, dan.stefan, Desertsnowman, curtismchale, logikal16, mikedamage, jchristopher
 Donate link: http://podsfoundation.org/donate/
 Tags: pods, custom post types, custom taxonomies, user fields, custom fields, cck, cms, content types, database, framework, drupal, post types, avatars, comment fields, media fields
-Requires at least: 3.7
-Tested up to: 3.9
-Stable tag: 2.4
+Requires at least: 3.8
+Tested up to: 4.4
+Stable tag: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,12 +15,12 @@ Pods is a framework for creating, managing, and deploying customized content typ
 Check out http://pods.io/ for our User Guide, Forums, and other resources to help you develop with Pods.
 
 = Introduction =
-[youtube http://www.youtube.com/watch?v=tkBDNOAQJxg]
+[youtube http://www.youtube.com/watch?v=bYEE2i3nPOM]
 
 = Content types that evolve with your needs =
 Create any type of content that you want -- small or large -- we've got you covered. Every content type created with Pods gets all the love it needs to grow up big and strong. You'll get an easy to use interface that lets you manage custom fields and how your content type will function.
 
-We now give you the power you've never before had with a single plugin because we've reimagined how to manage content types from the ground up.
+We now give you the power you've never before had with a single plugin because we've re-imagined how to manage content types from the ground up.
 
 = Create new content types =
 With Pods, you can create entirely new content types:
@@ -113,6 +113,11 @@ We also do our best to integrate and play nicely with other projects:
  * [Polylang](http://wordpress.org/plugins/polylang/)
  * [YARPP](http://wordpress.org/plugins/yet-another-related-posts-plugin/)
  * [WPML](http://wpml.org/)
+ * [Conductor](https://conductorplugin.com/)
+ * [Timber](http://upstatement.com/timber/)
+ * [Gravity Forms](http://www.gravityforms.com/) Using the [Pods Gravity Forms Add-on](https://github.com/pods-framework/pods-gravity-forms)
+ * [Caldera Forms](http://calderaforms.com) Using the [Pods Caldera Forms Add-on](https://github.com/pods-framework/pods-caldera-forms)
+ * [WordPress JSON REST API (WP-API)](http://wp-api.org) Using the [Pods JSON API](https://github.com/pods-framework/pods-json-api)
 * Themes we've integrated with
  * [Builder](http://www.ithemes.com/) (iThemes)
  * [Genesis](http://www.studiopress.com/) (StudioPress)
@@ -147,13 +152,196 @@ Pods really wouldn't be where it is without all of the contributions both financ
 
 Many thanks go out to the fine folks who have helped us translate Pods into other languages other than English!
 
-* sk_SK (Slovak) - Branco Radenovich ([WebHostingGeeks.com](http://webhostinggeeks.com/blog/))
-* nl_NL (Dutch) - [Ramon van Belzen](http://www.ramoonus.nl/)
-* pt_BR (Portuguese) - [Luciana](https://github.com/yammye)
-* And more in progress! Join us in further translating the Pods interface at: http://wp-translate.org/projects/pods/dev
+Join us in further translating the Pods interface at: http://wp-translate.org/projects/pods
 
 == Changelog ==
-= 2.4.1 June 19th, 2014 =
+
+= 2.6 - December 9th, 2015 =
+* Added: Support for Term Meta in WP 4.4 - Now create meta-based taxonomies and Pods just magically works! (#3169,#3163) [@sc0ttkclark]
+* Added: Add REST API Support to Post Types, Taxonomies, Users. Read the update in https://github.com/pods-framework/pods/pull/3184 for step by step details. (#3184,#3182) [@Shelob9]
+* Added: Added compatibility with the latest Polylang version, using $polylang-model to get the current language and version. (#3223) [@JoryHogeveen]
+* Added: Inline hook docs in PodsAdmin class (#3180,#3179) [@Shelob9]
+* Added: Fixes to REST API Admin Tab (thanks @nicdford) to display always but also explain why it won't work if not able to work. (#3246,#3259) [@Shelob9,@nicdford]
+* Added: PHPunit support for clover-coverage FN (#3176) [@Ramoonus]
+* Added: Travis do not allow PHP7 to fail (#3235) [@Ramoonus]
+* Added: Tests for Mariadb and mysql 5.6+7 with PHP 5.6 Travis (#3212,#3208) [@Ramoonus]
+* Added: Nonce and text translation to delete link in pod edit sidebar. Fixes issue where attempted to delete pod from edit page results in fatal error. (#3203,#3194) [@cpruitt]
+* Added: Use phpcs standard wordpress in scrutinizer (#3166) [@Ramoonus]
+* Added: phpunit support for clover-coverage (#3161) [@Ramoonus]
+* Added: Travis allow PHP7 to fail (#3153) [@Ramoonus]
+* Added: Travis include WordPress 4.3 in test matrix (#3152) [@Ramoonus]
+* Added: Travis cache composer (#3151) [@Ramoonus]
+* Added: Grunt ignore dockunit.json (#3150) [@Ramoonus]
+* Updated: Dockunit - replace PHP 7 rc1 with rc4 (#3201) [@Ramoonus]
+* Updated: Improve Contributing guidelines correcting wrong pull location and fixing correct release branch. (#3149,#3147) [@quasel]
+* Fixed: Scheduled post preview message/URL. When a post was scheduled, the status message displayed at the top of the edit post page was malformed where the string placeholders were numbered. (#3234) [@sparkdevelopment]
+* Fixed: Merged #3205 to fix install-wp-tests.sh (#3211,#3205) [@Ramoonus]
+* Fixed: Add pods_auto_template_name filter, by context to change auto template (#3199,#3200,#3198) [@Shelob9]
+* Fixed: Revert scrutinizer less is more (#3172,#3170) [@sc0ttkclark,@Ramoonus]
+* Fixed: Remove limit of 5 in get_template_titles Auto Template (#3157,#3160) [@jimtrue]
+* Fixed: Related_act.permalink calls to fix permalink/slug traversal in ACTs and related taxonomies (#3156,#3155,#2779) [@sc0ttkclark]
+* Fixed: Added option to deselect Auto Template for Archive views. There needed an 'empty' selection to correct issue where Template error wouldn't go away. (#3148,#3146,#3142,#3247) [@Sgillessen]
+* Fixed: Added Dockunit Badge (#3145) [@tlovett1]
+* Removed: Double exclude path in scrutinizer (#3228) [@Ramoonus]
+* Removed: Readme removed code coverage badge (#3220) [@Ramoonus]
+* Removed: Dump composer in Scrutinizer (#3204,#3167) [@Ramoonus]
+* Removed: Composer remove coveralls. Was not being used and needs phpunit support. Could also be replaced by php codesniffer or scrutinizer. (#3174) [@Ramoonus]
+
+= 2.5.5 - September 16th, 2015 =
+* Added: Unit testing for PHPUnit 4.8 support. (#3090, #3069) Kudos to @Ramoonus
+* Fixed: Drop External code coverage - timeout in Scrutinizer.  (#3091) Kudos to @Ramoonus
+* Fixed: Changed Content property to fix spacing issues with AutoComplete Field where the formatted selection fields have awkward spacing between the selection box and the selection list. (#3098, #3097, #3099) Kudos to @nicdford
+* Fixed: Issue where [each] tag traversal did not work with Taxonomy in Pods Templates. Related notes regarding pod->object_fields for taxonomy added for 3.0 notes. (#3106, #3018, #3107, #3111) Major thanks to @pglewis
+* Fixed: `permalink` field traversal has only been working for post types, not for related taxonomies. (#2779, #3114, #3115) Kudos to @pglewis
+* Added: Support for CPT UI 1.0.x in CPT UI migration component by adding support for multiple possible option names for post types and taxonomies. (#3112, #3109, #3113, #3116, #3117) Kudos to @pglewis
+* Added: Merged Auto Template into Pods Template Component.  (#3125, #3105) Major thanks to @Shelob9 both for the original plugin and for incorporating this into Pods Templates.
+* Added: License.txt changes to sync with GPL v2 (#3130, #3133) Kudos to @Ramoonus
+
+= 2.5.4 - August 10th, 2015 =
+* Added: Support for Compare ALL with meta_query syntax. Kudos to @pcfreak30. (#3037, #3038)
+* Added: Query_field tests (meta_query syntax for where) (#3033, #3032, #1662, #2689)
+* Added: Support for autoCAST()ing meta_value orderby for dates and numbers (#3043, #3041, #3058)
+* Added: Feature/pods page export support. Added 'pods_page_exists' filter to allow Pods Page content to be supplied from another source (eg exported files) (#3049, #3054)
+* Added: Copy of EDDs scrutinizer (#2917, #3072)
+* Removed: PHP4-style constructor removed in Pods Widgets (#3055, #3056, #3057)
+* Fixed: PHP Doc Improvement (#3039, #3040)
+* Fixed: Style escaping which created a quote encoding bug in PodsMeta.php. (#3053, #3032)
+
+= 2.5.3 - June 11th, 2015 =
+* Added: Support for Term Splitting in WP 4.2 (#2856, #2660)
+* Added: Support for Pod and Field names with dashes and prefixes with underscores (#3012, #3021, #3022)
+* Added: Add git workflow and a link to it from contributing.md (#2490, #2496)
+* Added: Unit tests for PodsField_Boolean (#2473, #2474)
+* Added: Unit test to create pod factory object and moves fixture set up from traversal tests to test case. (#2445)
+* Added: Additional Pods_Field_Text tests added to incorrect text dependencies. (#2388)
+* Fixed: Fixes for Drag and Drop Reorder Action not working in ACT's (#3015, #3016)
+* Fixed: Fix for pagination handling in shortcodes. Shortcodes currently use 'pagination' for two contexts (display and data) but if page or offset is supplied, it's only meant for one context (display). (#2807, #3004)
+* Fixed: Update post field in pod instance before saving, related to MetaData (post field) not flushing after saving (#3000, #3002, #3003)
+* Fixed: Corrects Delete not working for Edit Items (#2752, #2991)
+* Fixed: Corrects ACT - Admin Order DESC not working && SQL error if order by an relationship field (#2843, #2989)
+* Fixed: Composer: updated for phpunit 4.7 (#2987, #2988, #2783)
+* Fixed: ui/js/jquery.pods.js fixes (#2971, #2972)
+* Fixed: Remove `@internal` phpDoc for pods_query() (#2970, #2969, #2975)
+* Fixed: Fix for ACT editor not staying on current item after saving (#2968, #2942, #2974)
+* Fixed: Fix for over escaping icon URL in file fields previewer (#2957, #2956, #2955, #2978)
+* Fixed: Fix for symlinked pods in local deve environment (#2946, #2945, #2949)
+* Fixed: Removed Vestiges of Old Updater (#2940, #2983)
+* Fixed: Clarify help text as to what does and doesn't get deleted on reset (#2792, #2778)
+* Fixed: Missing $ in PodsInit line 494 (#2475, #2476)
+* Fixed: Trim off whitespace when saving custom fields; code in classes/fields/pick.php already does this. (#2386, #2343)
+* Fixed: Updated Taxonomy to get called after cache is flushed (#2264, #2375, #2382)
+* Fixed: Cleared old unit tests from EDD (#2380)
+* Fixed: Allow fields to be sorted by orderby; Two separate but connected issues. First if orderby is passed then the $data array is never populated. Then looping through $ids will always give it results sorted by priority in the relationships field (data returned by lookup_related_items) (#2350, #2277)
+
+= 2.5.2 - May 14th, 2015 =
+* Fixed: Issues with default values for number and other types of fields.
+* Fixed: Issue where Pods update was causing WP-API endpoints to 404. Rewirte rules now flush on wp_loaded.
+* Fixed: Issue preventing proper display of fields in a related CPT via Pods::field()
+* Fixed: Issue preventing codemirror from being enqueued in Pods templates and therefore breaking Pods tempaltes editor in certain configurations.
+* Added: Added caching info to debug info.
+* Fixed: Bug that was causing Pods to overwrite admin menus.
+* Fixed: Issue preventing ongoing compatibility with Admin Columns.
+* Improved: Style of components filter bar.
+* Improved: Proper sanitization/ escaping of URLs.
+* Fixed: Shortcode button was outputted in post editor when shortcodes were disabled. This will no longer happen.
+* Improved: Translation strings in ui/admin/help
+* Improved: Gradients in Pods wizard.
+* Fixed: Issue preventing associated taxonomies to be fetched via Pods::field() and therefore magic tags.
+* Improved: Icon font used for Pods admin icon.
+* Improved: Elaborated on what data is and isn't deleted when Pods data is reset.
+* Added: Compatibility with Github updater plugin.
+* Updated: New youtube video in readme.
+* Added: Support for term splitting in WordPress 4.2.
+* Removed: Extra meta data with _pods_ prefix
+* Fixed: Issue where multiple post type Pods objects called in same session were treated as the same in cache.
+* Fixed: Double slashing in PodsView class.
+* Improved: URL escaping in PodsUI
+
+= 2.5.1.2 - March 16th, 2015 =
+* Security Update: We recommend all Pods 2.x installations be updated to the latest version of Pods
+* or replace your plugin files with the download of your version from http://wordpress.org/plugins/pods/developers/
+* Fixed: Pods UI orderby now strictly enforces Database column format
+
+= 2.5.1.1 - January 22nd, 2015 =
+* Fixed missing files for font icon.
+
+= 2.5.1 - January 22nd, 2015 =
+* Fixed: Issue preventing fields from being sorted by weight or by orderby, that was affecting image multi-select image field ordering.
+* Fixed: Missing gradients in UI.
+* Fixed: Use of anonymous function in PodsMeta.php causing issues with old versions of PHP.
+* Fixed: Issue where hidden fields were being shown for admin users, when they should have been hidden.
+* Fixed: Issue where PodsAPI::delete_field() was unable to delete fields in certain situations.
+* Fixed: Issue with pods_version_check() usage that was causing a deprecated core function to run, when it was supposed to prevent it from running.
+* Fixed: Issue with pods_error() that was causing it to display AJAX errors improperly.
+* Fixed: Issue preventing public, publicly queryable & rewrite with front from saving choices in advanced options.
+* Fixed: Magic tag for custom taxonomy, which was showing no content in Pods Templates in 2.5.
+* Fixed: If block in Frontier.
+* Fixed: Issue with custom taxonomy joins preventing "custom_tax.d.custom_field" type where clauses from working.
+
+= 2.5 - December 30th, 2014 =
+* Major performance enhancements can now make things run up to 400% faster (props to @jamesgol!)
+* More unit tests -- now 1,858 tests with a total of 13,420 assertions covering all content type, storage type, and field variations (props to @sc0ttkclark, @clubduece, and @mordauk! it was a group effort)
+* Added Travis-CI / Scrutinizer-CI for all pushes and pull requests to unit test and check for other issues
+* Upgraded Code Mirror library
+* Upgraded qTip library
+* Updated translations -- Add your translations at http://wp-translate.org/projects/pods
+* Fixed: Added nonces for multiple actions in the admin area to avoid accidental / unwanted results
+* Fixed: Issue causing issues in admin with CodePress admin columns.
+* Fixed: Issue preventing Pods Template editor from working with certain xcache configurations.
+* Added: 'join' to the accepted tags for Pods Shortcode.
+* Added: 'pods_data_pre_select_params' filter.
+* Improve: PodsAPI::export_pod_item_lvl(), adding item ID to all steps.
+* Simplify logic when creating new PodsAPI singleton internally.
+* Switch from Pods::do_hook() to apply_filters() or do_action() for 'pods_pods_fields', 'pods_pods_field_related_output_type', 'pods_pods_field_', 'pods_pods_field', 'pods_pods_fetch', 'pods_pods_reset', 'pods_pods_total_found', 'pods_pods_filters'
+* Fixed: YARRP support.
+* Ensure that pods_v_sanitized() passes the $strict argument to pods_v().
+* Prevent use of date_i18n() in PodsData when not needed.
+* Fixed: Issue where updating relationship to users in pods editor  threw an erroneous error.
+* Fixed: Hiding of text in title-prompt-text
+* Updated design of new Pod wizard to match MP6 (props to @nikv!)
+* Fixed: Inline docs for pods_api_get_table_info_default_post_status filter
+* Fixed: Issue where Pods::field() showed cached data after saving via Pods::save(), without re-building the Pods Object.
+* Allowed PodsField_Pick to save names
+* Switched pods_v() to use switch/case instead of if/else where possible.
+* Prevented Pods::id() from calling the field method unless it has to.
+* In PodsData::select(), allow proper use of cache expiration time.
+* Fixed: Issue in currency fields to ensure proper handling of decimals.
+* Added a "pre_select" hook in PodsData.
+* Improved traversal regex in Pods::find() to have better handling for variation of backticks.
+* Removed usages of the deprecated WordPress function like_escape().
+* Remove redundant file/class checks for Pods Templates.
+* Implement glotpress-grunt for manging translations.
+* Fixed: Issue where get_current_screen(), in some contexts was used as an object, when it was null.
+* Improved: Styling of shortcode insert button.
+* Prevented string replace and trim from running on a form field default when default value is not a string
+* Fixed: Issue preventing color pickers from working in front-end form.
+* Switched from using $wpdb->prefix to $wpdb->base_prefix in pick field class.
+* Fixed: Default avatars on the Discussion settings page replaced by user's custom avatar.
+* When saving custom fields, whitespace is now trimmed.
+* Better validation of custom fields when saving custom post types.
+* Improved: Handling of required fields.
+* Changed the default of $display_errors in Pods class to true.
+* Allowed save_post_meta to delete single meta elements instead of update.
+* Fixed: An issue preventing fields from being sorted by orderby.
+* Fixed: Issue where fields, storing one value, returned arrays, instead of strings.
+* Allowed extending the link category taxonomy, if in use.
+* Added join as an acceptable tag for Pods shortcodes.
+* Fixed pods_error(): reversed logic that was emitting an error instead of throwing an exception when $display_errors is false
+* Fixed issue where user_url was created as a required field when extending users.
+* Add ability to use pods_group_add() in the ACT editor.
+* Security Update Reminder: As of Pods 2.4.2, we recommend all Pods 2.x installations be updated to the latest version, or replace your plugin files with the download of your version from http://wordpress.org/plugins/pods/developers/
+* If you need assistance in upgrading your Pods 2.x site to the latest version of Pods, please don't hesitate to contact us at http://pods.io/help/
+
+= 2.4.3 - June 23rd, 2014 =
+* Fixed: Pods Templates component now has better handling of the new shortcodes
+* Fixed: PodsUI data issue with Custom DB Table support
+* Fixed: Readonly fields and noncing now works properly, Pods 2.4.2 caused all forms with readonly fields to fail submission
+* Hardened: Further security hardening of the `[pods]` shortcode, added PODS_DISABLE_SHORTCODE constant to allow sites to disable the Pods shortcode altogether
+
+= 2.4.2 - June 22nd, 2014 =
+* Security Update: We recommend all Pods 2.x installations be updated to the latest version of Pods to fix a noncing issue with form saving, or replace your plugin files with the download of your version from http://wordpress.org/plugins/pods/developers/
+
+= 2.4.1 - June 19th, 2014 =
 * Fixed: Display of of hidden fields in Pods Forms
 * Fixed: Reordering fields in PodsUI
 * Fixed: PodsUI Admin Icon Display
@@ -168,7 +356,7 @@ Many thanks go out to the fine folks who have helped us translate Pods into othe
 * Added: Inline docs for 'pods_meta_default_box_title' filter and normalized args across each usage.
 * Added: Item ID to pods_api::export() item array.
 * Fixed: Update from GitHub functionality.
-* Fixed: Issue where extended custom post types had diffrent names then original post type due to use of dashes in names.
+* Fixed: Issue where extended custom post types had different names then original post type due to use of dashes in names.
 * Improved UX for select2 field adding new items.
 * Fixed: $params with unslashed data in Pods_Admin::admin_ajax()
 * Fixed: Unwarranted base_dir warnings.
@@ -411,7 +599,7 @@ Many thanks go out to the fine folks who have helped us translate Pods into othe
 * Added: API to register pods and fields from a theme or another plugin (doesn't save into the DB): pods_register_type and pods_register_field - See https://github.com/pods-framework/pods/issues/700
 * Added: Now you can look up meta field values within find() calls, just use the field_name.meta_value syntax (instead of t.field_name) and Pods will auto-join the table needed
 * Updated: Relationship 'where' option in Field editor now more robust and has all fields (including relationships, or meta like above) can be referenced
-* Updated: Relationship 'where' option in Field editor now supports {@user.ID} lookups which maps to pods_v( 'ID', 'user' ) to sanitize (ex. user.ID != '{@user.ID}' in the Pick WHERE will return all users not the current user); You can use any pods_var enabled option, documentation coming this month
+* Updated: Relationship 'where' option in Field editor now supports {@user.ID} lookups which maps to pods_var( 'ID', 'user' ) to sanitize (ex. user.ID != '{@user.ID}' in the Pick WHERE will return all users not the current user); You can use any pods_var enabled option, documentation coming this month
 * Updated: Relationship saving has been optimized for both bi-directional relationships and regular relationships
 * Various fixes that can be found on GitHub
 

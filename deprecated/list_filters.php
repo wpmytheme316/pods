@@ -1,3 +1,10 @@
+<?php
+/**
+ * @package Pods
+ * @category Deprecated
+ * @deprecated 2.0.0
+ */
+?>
 <form method="get" class="filterbox filterbox_<?php echo esc_attr( $this->pod ); ?>" action="<?php echo esc_attr( $action ); ?>">
 	<?php
 	if ( ! empty( $filters ) ) {
@@ -5,15 +12,17 @@
 			$filters = explode( ',', $filters );
 		}
 		foreach ( $filters as $field_name ) {
-			$field = $this->api->load_column( array( 'name' => $field_name, 'pod' => $this->pod ) );
-			if ( empty( $field ) ) {
+			$field = pods_api()->load_field( array( 'name' => $field_name, 'pod' => $this->pod, 'output' => OBJECT ) );
+
+			if ( empty( $field ) || $field->is_valid() ) {
 				continue;
 			}
+
 			if ( 'pick' == $field['type'] && ! empty( $field['pick_object'] ) ) {
 				$pick_object = $field['pick_object'];
 				$pick_val    = $field['pick_val'];
 				if ( 'pod' == $pick_object ) {
-					$pick_pod    = $this->api->load_pod( array( 'name' => $pick_val ) );
+					$pick_pod    = pods_api()->load_pod( array( 'name' => $pick_val ) );
 					$pick_object = $pick_pod['type'];
 					$pick_val    = $pick_pod['object'];
 				}
@@ -55,7 +64,7 @@
 					'column'       => $pick_column_id,
 					'column_name'  => $field_name,
 					'join'         => $pick_join,
-					'orderby'      => $field['options']['pick_orderby'],
+					'orderby'      => $field['pick_orderby'],
 					'where'        => $pick_where
 				);
 				$field_data  = $this->get_dropdown_values( $pick_params );

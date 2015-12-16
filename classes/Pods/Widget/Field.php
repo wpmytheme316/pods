@@ -1,29 +1,45 @@
 <?php
-
 /**
- * @package Pods\Widget
+ * @package Pods
+ * @category Widgets
  */
-class Pods_Widget_Field extends
-	WP_Widget {
+class Pods_Widget_Field extends WP_Widget {
 
 	/**
 	 * Register the widget
+	 *
+	 * @since 2.5.4
+	 *
+	 * Note: params are totally ignored. Included for the sake of strict standards.
+	 *
+	 *
+	 * @param string $id_base         Optional Base ID for the widget, lowercase and unique. If left empty,
+	 *                                a portion of the widget's class name will be used Has to be unique.
+	 * @param string $name            Name for the widget displayed on the configuration page.
+	 * @param array  $widget_options  Optional. Widget options. See {@see wp_register_sidebar_widget()} for
+	 *                                information on accepted arguments. Default empty array.
+	 * @param array  $control_options Optional. Widget control options. See {@see wp_register_widget_control()}
+	 *                                for information on accepted arguments. Default empty array.
 	 */
-	public function Pods_Widget_Field() {
-		$this->WP_Widget( 'pods_widget_field',
+	public function __construct( $id_base = 'pods_widget_field', $name = 'Pods - Field Value', $widget_options = array(), $control_options = array() ) {
+		parent::__construct(
+			'pods_widget_field',
 			'Pods - Field Value',
 			array( 'classname' => 'pods_widget_field', 'description' => "Display a single Pod item's field value" ),
-			array( 'width' => 200 ) );
+			array( 'width' => 200 )
+		);
+
 	}
 
 	/**
-	 * Output of widget
+	 * {@inheritdoc}
 	 */
 	public function widget( $args, $instance ) {
+
 		extract( $args );
 
 		// Get widget fields
-		$title = apply_filters( 'widget_title', $instance['title'] );
+		$title = apply_filters( 'widget_title', $instance[ 'title' ] );
 
 		$args = array(
 			'name'       => trim( pods_v( 'pod_type', $instance, '' ) ),
@@ -34,39 +50,45 @@ class Pods_Widget_Field extends
 			'shortcodes' => (int) pods_v( 'shortcodes', $instance, 0 )
 		);
 
-		if ( 0 < strlen( $args['name'] ) && 0 < strlen( $args['slug'] ) && 0 < strlen( $args['field'] ) ) {
+		if ( 0 < strlen( $args[ 'name' ] ) && 0 < strlen( $args[ 'slug' ] ) && 0 < strlen( $args[ 'field' ] ) ) {
 			require PODS_DIR . 'ui/front/widgets.php';
 		}
+
 	}
 
 	/**
-	 * {@inheritDocs}
+	 * {@inheritdoc}
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance               = $old_instance;
-		$instance['title']      = pods_v( 'title', $new_instance, '' );
-		$instance['pod_type']   = pods_v( 'pod_type', $new_instance, '' );
-		$instance['slug']       = pods_v( 'slug', $new_instance, '' );
-		$instance['field']      = pods_v( 'field', $new_instance, '' );
-		$instance['before']     = pods_v( 'before', $new_instance, '' );
-		$instance['after']      = pods_v( 'after', $new_instance, '' );
-		$instance['shortcodes'] = (int) pods_v( 'shortcodes', $new_instance, 0 );
+
+		$instance = $old_instance;
+		$instance[ 'title' ] = pods_v( 'title', $new_instance, '' );
+		$instance[ 'pod_type' ] = pods_v( 'pod_type', $new_instance, '' );
+		$instance[ 'slug' ] = pods_v( 'slug', $new_instance, '' );
+		$instance[ 'field' ] = pods_v( 'field', $new_instance, '' );
+		$instance[ 'before' ] = pods_v( 'before', $new_instance, '' );
+		$instance[ 'after' ] = pods_v( 'after', $new_instance, '' );
+		$instance[ 'shortcodes' ] = (int) pods_v( 'shortcodes', $new_instance, 0 );
 
 		return $instance;
+
 	}
 
 	/**
-	 * {@inheritDocs}
+	 * {@inheritdoc}
 	 */
 	public function form( $instance ) {
-		$title      = pods_v( 'title', $instance, '' );
-		$pod_type   = pods_v( 'pod_type', $instance, '' );
-		$slug       = pods_v( 'slug', $instance, '' );
-		$field      = pods_v( 'field', $instance, '' );
-		$before     = pods_v( 'before', $instance, '' );
-		$after      = pods_v( 'after', $instance, '' );
+
+		$title = pods_v( 'title', $instance, '' );
+		$pod_type = pods_v( 'pod_type', $instance, '' );
+		$slug = pods_v( 'slug', $instance, '' );
+		$field = pods_v( 'field', $instance, '' );
+		$before = pods_v( 'before', $instance, '' );
+		$after = pods_v( 'after', $instance, '' );
 		$shortcodes = (int) pods_v( 'shortcodes', $instance, 0 );
 
 		require PODS_DIR . 'ui/admin/widgets/field.php';
+
 	}
+
 }

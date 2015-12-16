@@ -1,26 +1,15 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-/tests export-ignore
+
+# Ignore
 /sources export-ignore
+/tests export-ignore
+.travis.yml export-ignore
+composer.json export-ignore
+CONTRIBUTING.md export-ignore
+Gruntfile.js export-ignore
+git-workflow.md export-ignore
 kill-travis.php export-ignore
-/assets export-ignore
-
-# Custom for Visual Studio
-*.cs     diff=csharp
-*.sln    merge=union
-*.csproj merge=union
-*.vbproj merge=union
-*.fsproj merge=union
-*.dbproj merge=union
-
-# Standard to msysgit
-*.doc	 diff=astextplain
-*.DOC	 diff=astextplain
-*.docx diff=astextplain
-*.DOCX diff=astextplain
-*.dot  diff=astextplain
-*.DOT  diff=astextplain
-*.pdf  diff=astextplain
-*.PDF	 diff=astextplain
-*.rtf	 diff=astextplain
-*.RTF	 diff=astextplain
+package.json export-ignore
+phpunit.xml.dist export-ignore
+dockunit.json export-ignore

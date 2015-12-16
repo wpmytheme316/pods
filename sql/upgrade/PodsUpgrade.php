@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Pods\Upgrade
+ * @package Pods
+ * @category Upgrade
  */
 class PodsUpgrade {
 
@@ -25,17 +26,17 @@ class PodsUpgrade {
     protected $version = null;
 
     /**
-     *
+     * Build the upgrade process
      */
     function __construct() {
-        $this->api = pods_api();
-
         $this->get_tables();
         $this->get_progress();
     }
 
     /**
+     * Install the update
      *
+     * @param null $_blog_id
      */
     public function install( $_blog_id = null ) {
         /**
@@ -51,6 +52,12 @@ class PodsUpgrade {
 
         $pods_version = get_option( 'pods_version' );
 
+        /**
+	     * Fires when Pods Installs during the upgrade process
+	     *
+	     * @param int $pods_version The current version number of Pods
+	     * @param int $_blog_id Current blog id
+	     */
         do_action( 'pods_install', PODS_VERSION, $pods_version, $_blog_id );
 
         if ( !pods_tableless() && false !== apply_filters( 'pods_install_run', null, PODS_VERSION, $pods_version, $_blog_id ) && !isset( $_GET[ 'pods_bypass_install' ] ) ) {
@@ -84,7 +91,7 @@ class PodsUpgrade {
     }
 
     /**
-     *
+     * Get DB Tables
      */
     public function get_tables() {
         /**
@@ -102,7 +109,7 @@ class PodsUpgrade {
     }
 
     /**
-     *
+     * Get upgrade progress
      */
     function get_progress() {
         $methods = get_class_methods( $this );
@@ -137,6 +144,8 @@ class PodsUpgrade {
     }
 
     /**
+     * Update upgrade process
+     *
      * @param $method
      * @param $v
      * @param null $x
@@ -156,6 +165,8 @@ class PodsUpgrade {
     }
 
     /**
+     * Check upgrade process
+     *
      * @param $method
      * @param null $x
      *
@@ -175,7 +186,7 @@ class PodsUpgrade {
     }
 
     /**
-     *
+     * Upgrade process complete
      */
     public function upgraded() {
         if ( empty( $this->version ) )
@@ -195,7 +206,7 @@ class PodsUpgrade {
     }
 
     /**
-     *
+     * Cleanup DB options/tables
      */
     public function cleanup() {
         /**

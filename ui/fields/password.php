@@ -1,14 +1,18 @@
 <?php
-$attributes             = array();
-$attributes['type']     = 'password';
-$attributes['value']    = $value;
-$attributes['tabindex'] = 2;
-$attributes             = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
+/**
+ * @package  Pods
+ * @category Field Types
+ */
+
+$attributes               = array();
+$attributes[ 'type' ]     = 'password';
+$attributes[ 'value' ]    = $value;
+$attributes[ 'tabindex' ] = 2;
+$attributes               = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
 
 if ( pods_v( 'readonly', $options, false ) ) {
-	$attributes['readonly'] = 'READONLY';
-
-	$attributes['class'] .= ' pods-form-ui-read-only';
+	$attributes[ 'readonly' ] = 'READONLY';
+	$attributes[ 'class' ] .= ' pods-form-ui-read-only';
 }
 ?>
 	<input<?php Pods_Form::attributes( $attributes, $name, $form_field_type, $options ); ?> />

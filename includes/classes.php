@@ -1,7 +1,9 @@
 <?php
 /**
- * @package Pods\Global\Functions\Classes
+ * @package Pods
+ * @category Utilities
  */
+
 /**
  * Include and Init the PodsObject class
  *
@@ -126,7 +128,7 @@ function pods_object_get( $object, $name = null, $id = 0, $live = false, $parent
  * @param mixed  $id     (optional) The ID or slug, to load a single record; Provide array of $params to run 'find'
  * @param bool   $strict (optional) If set to true, return false instead of an object if the Pod doesn't exist
  *
- * @return bool|\Pods
+ * @return bool|\Pods returns false if $strict, WP_DEBUG, PODS_STRICT or (PODS_DEPRECATED && PODS_STRICT_MODE) are true
  * @since 2.0
  * @link  http://pods.io/docs/pods/
  */
@@ -180,6 +182,7 @@ function pods_ui( $obj, $deprecated = false ) {
 function pods_api( $pod = null, $format = null ) {
 
 	return Pods_API::init( $pod, $format );
+
 }
 
 /**
@@ -203,6 +206,7 @@ function pods_data( $pod = null, $id = null, $strict = true, $unique = true ) {
 	}
 
 	return Pods_Data::init( $pod, $id, $strict );
+
 }
 
 /**
@@ -217,6 +221,7 @@ function pods_data( $pod = null, $id = null, $strict = true, $unique = true ) {
 function pods_form() {
 
 	return Pods_Form::init();
+
 }
 
 /**
@@ -231,6 +236,7 @@ function pods_form() {
 function pods_init() {
 
 	return Pods_Init::init();
+
 }
 
 /**
@@ -245,6 +251,7 @@ function pods_init() {
 function pods_components() {
 
 	return Pods_Components::init();
+
 }
 
 /**
@@ -259,6 +266,7 @@ function pods_components() {
 function pods_admin() {
 
 	return Pods_Admin::init();
+
 }
 
 /**
@@ -273,6 +281,7 @@ function pods_admin() {
 function pods_meta() {
 
 	return Pods_Meta::init();
+
 }
 
 /**
@@ -289,13 +298,16 @@ function pods_meta() {
 function pods_array( $container ) {
 
 	return new Pods_Array( $container );
+
 }
 
 /**
  * @return Pods_Service_Container
  */
 function pods_service( ) {
+
 	return Pods_Service_Container::init();
+
 }
 
 /**
@@ -323,6 +335,7 @@ function pods_view( $view, $data = null, $expires = false, $cache_mode = 'cache'
 	}
 
 	echo $view;
+
 }
 
 /**
@@ -341,6 +354,7 @@ function pods_view( $view, $data = null, $expires = false, $cache_mode = 'cache'
 function pods_migrate( $type = null, $delimiter = null, $data = null ) {
 
 	return new Pods_Migrate( $type, $delimiter, $data );
+
 }
 
 /**
@@ -355,6 +369,7 @@ function pods_migrate( $type = null, $delimiter = null, $data = null ) {
  * @since 2.1
  */
 function pods_upgrade( $version = '' ) {
+
 	include_once PODS_DIR . 'sql/upgrade/PodsUpgrade.php';
 
 	$class_name = str_replace( '.', '_', $version );
@@ -377,4 +392,5 @@ function pods_upgrade( $version = '' ) {
 	}
 
 	return $class;
+
 }

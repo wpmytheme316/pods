@@ -1,9 +1,17 @@
 <?php
-
 /**
  * @package Pods
- *
+ * @category Object Types
+ */
+
+/**
  * Class Pods_Object
+ *
+ * @property int|string $id Object ID
+ * @property string $name Object Name
+ * @property string $label Object Label
+ * @property string $description Object Description
+ * @property int|string $parent_id Parent ID
  */
 class Pods_Object implements
 	ArrayAccess,
@@ -174,11 +182,19 @@ class Pods_Object implements
 	 * @param bool                 $live   Set to true to automatically save values in the DB when you $object['option']='value'
 	 * @param mixed                $parent Parent Object or ID
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function __construct( $name, $id = 0, $live = false, $parent = null ) {
 
-		$id = $this->load( $name, $id, $parent );
+		if ( is_serialized( $name ) ) {
+			$this->unserialize( $name );
+
+			if ( $this->is_valid() ) {
+				$id = $this->_object[ 'id' ];
+			}
+		} else {
+			$id = $this->load( $name, $id, $parent );
+		}
 
 		if ( 0 < $id ) {
 			$this->_live = $live;
@@ -203,7 +219,7 @@ class Pods_Object implements
 	 *
 	 * @return int|bool $id The Object ID or false if Object not found
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function load( $name = null, $id = 0, $parent = null ) {
 
@@ -325,7 +341,7 @@ class Pods_Object implements
 	 *
 	 * @return int|bool $id The Object ID or false if Object not found
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function exists( $name = null, $id = 0, $parent = null ) {
 
@@ -346,7 +362,7 @@ class Pods_Object implements
 	 *
 	 * @return bool
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function is_valid( $strict = false ) {
 
@@ -363,7 +379,7 @@ class Pods_Object implements
 	 *
 	 * @return bool
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function is_custom() {
 
@@ -380,7 +396,7 @@ class Pods_Object implements
 	/**
 	 * Destroy this Object and invalidate it
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function destroy() {
 
@@ -396,7 +412,8 @@ class Pods_Object implements
 	 * Get a list of all meta keys that have changed
 	 *
 	 * @return array
-	 * @since 3.0
+	 *
+	 * @since 3.0.0
 	 */
 	public function changed() {
 
@@ -416,7 +433,8 @@ class Pods_Object implements
 	 * @param array|object|Pods_Object $data Data override
 	 *
 	 * @return $this
-	 * @since 3.0
+	 *
+	 * @since 3.0.0
 	 */
 	public function override( $data ) {
 
@@ -445,7 +463,7 @@ class Pods_Object implements
 	/**
 	 * Save overrides of options for Objects
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function override_save() {
 
@@ -465,7 +483,8 @@ class Pods_Object implements
 	 * @param array|object|Pods_Object $data Data override
 	 *
 	 * @return $this
-	 * @since 3.0
+	 *
+	 * @since 3.0.0
 	 */
 	public function defaults( $data ) {
 
@@ -496,6 +515,8 @@ class Pods_Object implements
 	 * Safely perform an action for multiple object instances
 	 *
 	 * @param $action
+	 *
+	 * @since 3.0.0
 	 */
 	public function _action( $action ) {
 
@@ -526,6 +547,8 @@ class Pods_Object implements
 	 * @param int    $id     Object ID
 	 * @param string $name   Object name
 	 * @param int    $parent Object Parent ID
+	 *
+	 * @since 3.0.0
 	 */
 	public function _update( $id, $name, $parent ) {
 
@@ -553,6 +576,8 @@ class Pods_Object implements
 	 * @param int    $id     Object ID
 	 * @param string $name   Object name
 	 * @param int    $parent Object Parent ID
+	 *
+	 * @since 3.0.0
 	 */
 	public function _delete( $id, $name, $parent ) {
 
@@ -580,7 +605,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed|null
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function _meta( $meta_key = null, $id = null, $internal = false, $strict = false ) {
 
@@ -709,7 +734,7 @@ class Pods_Object implements
 	 *
 	 * @return bool|mixed
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function _fields( $fields, $field = null, $option = null, $alt = true ) {
 
@@ -799,7 +824,7 @@ class Pods_Object implements
 	/**
 	 * Fill in object data that may not be set yet
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function _fill() {
 
@@ -820,7 +845,7 @@ class Pods_Object implements
 	 *
 	 * @return array Exported array of all object data
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function export( $export_types = 'all' ) {
 
@@ -884,12 +909,15 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function fields_export() {
 
 		$fields = $this->fields( null, null );
 
+		/**
+		 * @var Pods_Object_Field $field_object
+		 */
 		foreach ( $fields as $field => $field_object ) {
 			if ( is_object( $field_object ) ) {
 				$fields[ $field ] = $field_object->export();
@@ -905,12 +933,15 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function object_fields_export() {
 
 		$object_fields = $this->object_fields( null, null );
 
+		/**
+		 * @var Pods_Object_Field $field_object
+		 */
 		foreach ( $object_fields as $field => $field_object ) {
 			if ( is_object( $field_object ) ) {
 				$object_fields[ $field ] = $field_object->export();
@@ -926,7 +957,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function table_info_export() {
 
@@ -964,7 +995,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function groups_export() {
 
@@ -989,7 +1020,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function fields( $field = null, $option = null, $alt = true ) {
 
@@ -1001,7 +1032,7 @@ class Pods_Object implements
 			$this->_fields = array();
 
 			if ( $this->is_custom() ) {
-				if ( isset( $this->_object['_fields'] ) && ! empty( $this->_object['_fields'] ) ) {
+				if ( ! empty( $this->_object['_fields'] ) ) {
 					foreach ( $this->_object['_fields'] as $object_field ) {
 						$object_field = pods_object_field( $object_field, 0, $this->_live, $this->_object['id'] );
 
@@ -1013,7 +1044,7 @@ class Pods_Object implements
 			} else {
 				$find_args = array(
 					'post_type'      => '_pods_field',
-					'posts_per_page' => - 1,
+					'posts_per_page' => -1,
 					'nopaging'       => true,
 					'post_parent'    => $this->_object['id'],
 					'orderby'        => 'menu_order',
@@ -1041,6 +1072,43 @@ class Pods_Object implements
 	}
 
 	/**
+	 * Return total number of fields
+	 *
+	 * @return int
+	 *
+	 * @since 3.0.0
+	 */
+	public function field_count() {
+
+		$total_fields = 0;
+
+		if ( ! $this->is_valid() ) {
+			return $total_fields;
+		}
+
+		if ( ! empty( $this->_fields ) ) {
+			$total_fields = count( $this->_fields );
+		} elseif ( $this->is_custom() ) {
+			if ( ! empty( $this->_object['_fields'] ) ) {
+				$total_fields = count( $this->_object['fields'] );
+			}
+		} else {
+			$find_args = array(
+				'post_type'      => '_pods_field',
+				'posts_per_page' => 1,
+				'post_parent'    => $this->_object['id'],
+			);
+
+			$query = new WP_Query( $find_args );
+
+			$total_fields = $query->found_posts;
+		}
+
+		return $total_fields;
+
+	}
+
+	/**
 	 * Return object field array from Object, a object field's data, or a object field option
 	 *
 	 * @param string|null $field  Object Field name
@@ -1049,7 +1117,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function object_fields( $field = null, $option = null, $alt = true ) {
 
@@ -1087,7 +1155,7 @@ class Pods_Object implements
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function groups( $group = null, $alt = true ) {
 
@@ -1143,7 +1211,7 @@ class Pods_Object implements
 	 *
 	 * @return array Table info
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function table_info() {
 
@@ -1158,7 +1226,7 @@ class Pods_Object implements
 	/**
 	 * Clear Table info for object, used when switching blogs
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function table_info_clear() {
 
@@ -1175,7 +1243,7 @@ class Pods_Object implements
 	 *
 	 * @return int|bool The Object ID or false if failed
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function save( $options = null, $value = null, $refresh = true ) {
 
@@ -1233,7 +1301,7 @@ class Pods_Object implements
 	 *
 	 * @return int|bool The new Object ID or false if failed
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function duplicate( $options = null, $value = null, $replace = false ) {
 
@@ -1328,7 +1396,7 @@ class Pods_Object implements
 	 *
 	 * @return bool Whether the Object was successfully deleted
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function delete( $delete_all = false ) {
 
@@ -1366,7 +1434,7 @@ class Pods_Object implements
 	 *
 	 * @return bool Whether the Content was successfully deleted
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function reset() {
 
@@ -1387,7 +1455,7 @@ class Pods_Object implements
 	 *
 	 * @return mixed|void
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function offsetSet( $offset, $value, $live = true ) {
 
@@ -1435,7 +1503,7 @@ class Pods_Object implements
 	 *
 	 * @return mixed|null
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function offsetGet( $offset, $strict = false ) {
 
@@ -1521,7 +1589,7 @@ class Pods_Object implements
 	 *
 	 * @return bool
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function offsetExists( $offset ) {
 
@@ -1539,7 +1607,7 @@ class Pods_Object implements
 	 * @param mixed $offset Used to unset index of Array
 	 * @param bool  $live   Set to false to override current live object saving
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function _offsetUnset( $offset, $live = true ) {
 
@@ -1558,7 +1626,7 @@ class Pods_Object implements
 	 *
 	 * @param mixed $offset Used to unset index of Array
 	 *
-	 * @since 2.3.10
+	 * @since 3.0.0
 	 */
 	public function offsetUnset( $offset ) {
 
@@ -1575,7 +1643,8 @@ class Pods_Object implements
 	 * @return mixed
 	 *
 	 * @see   offsetSet
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function __set( $offset, $value ) {
 
@@ -1591,7 +1660,8 @@ class Pods_Object implements
 	 * @return mixed
 	 *
 	 * @see   offsetGet
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function __get( $offset ) {
 
@@ -1607,7 +1677,8 @@ class Pods_Object implements
 	 * @return bool
 	 *
 	 * @see   offsetExists
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function __isset( $offset ) {
 
@@ -1621,7 +1692,8 @@ class Pods_Object implements
 	 * @var mixed $offset
 	 *
 	 * @see   offsetUnset
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function __unset( $offset ) {
 
@@ -1635,15 +1707,14 @@ class Pods_Object implements
 	 * @return string Serialized string
 	 *
 	 * @see   serialize
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function serialize() {
 
 		$array = array(
-			'_object'        => $this->_object,
-			'_meta'          => $this->_meta,
-			'_fields'        => $this->_fields,
-			'_object_fields' => $this->_object_fields
+			'_object' => $this->_object,
+			'_meta'   => $this->_meta
 		);
 
 		return serialize( $array );
@@ -1656,13 +1727,14 @@ class Pods_Object implements
 	 * @param string $data Serialized string
 	 *
 	 * @see   unserialize
-	 * @since 2.3.10
+	 *
+	 * @since 3.0.0
 	 */
 	public function unserialize( $data ) {
 
-		$object = @unserialize( $data );
+		$object = maybe_unserialize( $data );
 
-		if ( ! empty( $object ) ) {
+		if ( ! empty( $object ) && ( is_object( $object ) || is_array( $object ) ) ) {
 			$object = (object) $object;
 
 			if ( isset( $object->_object ) ) {
@@ -1671,14 +1743,6 @@ class Pods_Object implements
 
 			if ( isset( $object->_meta ) ) {
 				$this->_meta = $object->_meta;
-			}
-
-			if ( isset( $object->_fields ) ) {
-				$this->_fields = $object->_fields;
-			}
-
-			if ( isset( $object->_object_fields ) ) {
-				$this->_object_fields = $object->_object_fields;
 			}
 		}
 

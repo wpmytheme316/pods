@@ -1,5 +1,10 @@
 <?php
-$options['data'] = (array) pods_var_raw( 'data', $options, array(), null, true );
+/**
+ * @package  Pods
+ * @category Field Types
+ */
+
+$options[ 'data' ] = (array) pods_v( 'data', $options, array(), true );
 
 if ( 1 == pods_v( 'grouped', $options, 0, true ) ) {
 	?>
@@ -13,10 +18,10 @@ $primary_name   = $name;
 $primary_id     = 'pods-form-ui-' . Pods_Form::clean( $name );
 $selection_made = false;
 
-foreach ( $options['data'] as $val => $label ) {
+foreach ( $options[ 'data' ] as $val => $label ) {
 	if ( is_array( $label ) ) {
-		if ( isset( $label['label'] ) ) {
-			$label = $label['label'];
+		if ( isset( $label[ 'label' ] ) ) {
+			$label = $label[ 'label' ];
 		} else {
 			$label = $val;
 		}
@@ -24,17 +29,17 @@ foreach ( $options['data'] as $val => $label ) {
 
 	$attributes = array();
 
-	$attributes['type'] = 'radio';
+	$attributes[ 'type' ] = 'radio';
 
-	$attributes['checked']  = null;
-	$attributes['tabindex'] = 2;
+	$attributes[ 'checked' ] = null;
+	$attributes[ 'tabindex' ] = 2;
 
 	if ( ! $selection_made && ( $val == $value || ( is_array( $value ) && in_array( $val, $value ) ) ) ) {
-		$attributes['checked'] = 'CHECKED';
-		$selection_made        = true;
+		$attributes[ 'checked' ] = 'CHECKED';
+		$selection_made = true;
 	}
 
-	$attributes['value'] = $val;
+	$attributes[ 'value' ] = $val;
 
 	$attributes = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
 
@@ -49,13 +54,12 @@ foreach ( $options['data'] as $val => $label ) {
 	}
 
 	if ( pods_v( 'readonly', $options, false ) ) {
-		$attributes['readonly'] = 'READONLY';
-
-		$attributes['class'] .= ' pods-form-ui-read-only';
+		$attributes[ 'readonly' ] = 'READONLY';
+		$attributes[ 'class' ] .= ' pods-form-ui-read-only';
 	}
 
-	if ( 1 < count( $options['data'] ) ) {
-		$attributes['id'] = $primary_id . $counter;
+	if ( 1 < count( $options[ 'data' ] ) ) {
+		$attributes[ 'id' ] = $primary_id . $counter;
 	}
 
 	if ( 1 == pods_v( 'grouped', $options, 0, true ) ) {
@@ -74,7 +78,7 @@ foreach ( $options['data'] as $val => $label ) {
 				$help = '';
 			}
 
-			echo Pods_Form::label( $attributes['id'], $label, $help );
+			echo Pods_Form::label( $attributes[ 'id' ], $label, $help );
 		}
 		?>
 	</div>

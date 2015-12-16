@@ -1,0 +1,311 @@
+#ui-datepicker-div {
+	font-size: 14px !important;
+}
+
+.ui-slider-handle {
+	z-index: 0 !important;
+}
+
+a.button {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	white-space: nowrap;
+	line-height: 15px;
+	padding: 3px 10px;
+	background: #F3F3F3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FEFEFE), to(#F4F4F4));
+	background-image: -webkit-linear-gradient(top, #FEFEFE, #F4F4F4);
+	background-image: -moz-linear-gradient(top, #FEFEFE, #F4F4F4);
+	background-image: -o-linear-gradient(top, #FEFEFE, #F4F4F4);
+	background-image: linear-gradient(to bottom, #FEFEFE, #F4F4F4);
+	text-shadow: 0 1px 0 #FFF;
+	border: 1px solid #BBB;
+	font-size: 12px;
+	color: #464646;
+
+	&:hover {
+		text-decoration: none;
+		color: black;
+		border-color: #666;
+	}
+
+	&:active {
+		background: #EEE;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#F4F4F4), to(#FEFEFE));
+		background-image: -webkit-linear-gradient(top, #F4F4F4, #FEFEFE);
+		background-image: -moz-linear-gradient(top, #F4F4F4, #FEFEFE);
+		background-image: -ms-linear-gradient(top, #F4F4F4, #FEFEFE);
+		background-image: -o-linear-gradient(top, #F4F4F4, #FEFEFE);
+		background-image: linear-gradient(to bottom, #F4F4F4, #FEFEFE);
+		border-color: #999;
+		color: #333;
+		text-shadow: 0 -1px 0 #FFF;
+		-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+		box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+		text-decoration: none;
+	}
+}
+
+.button-primary {
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	-o-border-radius: 11px;
+	border-radius: 11px;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	white-space: nowrap;
+	line-height: 15px;
+	padding: 3px 8px;
+	border: 1px solid #21759B;
+	background-color: #21759B;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#2A95C5), to(#21759B));
+	background-image: -webkit-linear-gradient(top, #2A95C5, #21759B);
+	background-image: -moz-linear-gradient(top, #2A95C5, #21759B);
+	background-image: -ms-linear-gradient(top, #2A95C5, #21759B);
+	background-image: -o-linear-gradient(top, #2A95C5, #21759B);
+	background-image: linear-gradient(to bottom, #2A95C5, #21759B);
+	border-bottom-color: #1E6A8D;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+	box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFF;
+
+	&:hover {
+		text-decoration: none;
+		border-color: #13455B;
+		color: #EAF2FA;
+	}
+
+	&:active {
+		background-color: #21759B;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#2A95C5), to(#21759B));
+		background-image: -webkit-linear-gradient(top, #2A95C5, #21759B);
+		background-image: -moz-linear-gradient(top, #2A95C5, #21759B);
+		background-image: -ms-linear-gradient(top, #2A95C5, #21759B);
+		background-image: -o-linear-gradient(top, #2A95C5, #21759B);
+		background-image: linear-gradient(to bottom, #2A95C5, #21759B);
+		border-color: #21759B;
+		border-bottom-color: #1E6A8D;
+		-webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+		box-shadow: inset 0 1px 0 rgba(120, 200, 230, 0.5);
+		text-decoration: none;
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	}
+}
+
+a.delete {
+	color: #BF1300;
+	font-size: 12px;
+}
+
+h3.hndle {
+	margin-left: 23px;
+}
+
+form.pods-manage {
+	ol {
+		list-style: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	.inside {
+		padding: 20px;
+	}
+}
+
+.pods-field {
+	label {
+		cursor: pointer;
+		display: block;
+		padding: 0 0 4px 2px;
+	}
+
+	input {
+		display: block;
+	}
+
+	textarea {
+		display: block;
+		font-family: monospace;
+		height: 100%;
+		resize: none;
+	}
+
+	p.pods-field-comment {
+		color: #AAA;
+		font-size: .9em;
+		font-style: italic;
+		margin: 5px 0 0 2px !important;
+	}
+}
+
+.pods-pick select {
+	display: block;
+	min-width: 125px;
+}
+
+.pods-boolean {
+	position: relative;
+
+	input {
+		display: block;
+		height: auto;
+		left: 2px;
+		margin: 7px 7px 0 0;
+		padding: 0;
+		position: absolute;
+		top: 10px;
+		width: auto;
+	}
+
+	label {
+		margin-left: 20px;
+	}
+}
+
+.pods-file {
+	label {
+		padding-bottom: 8px;
+	}
+
+	input {
+		display: none;
+	}
+}
+
+ul.pods-files {
+	background: #FBFBFB;
+	border: 1px solid #DFDFDF;
+	border-bottom: 0;
+	border-radius: 3px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		background: #FFF;
+		border-bottom: 1px solid #DFDFDF;
+		margin: 0;
+		position: relative;
+		padding-bottom: 10px;
+
+		span {
+			display: inline-block;
+
+			&.pods-file-reorder {
+				left: 3px;
+				position: absolute;
+				top: 15px;
+				width: 30px;
+
+				img {
+					cursor: move;
+					display: block;
+				}
+			}
+
+			&.pods-file-thumb {
+				left: 35px;
+				position: absolute;
+				top: 2px;
+				width: 45px;
+
+				.pinkynail {
+					float: none;
+					margin: 0;
+					max-width: 40px;
+					max-height: 40px;
+				}
+			}
+
+			&.pods-file-name {
+				padding: 5px 35px 0 85px;
+			}
+
+			&.pods-file-remove {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				width: 25px;
+
+				img {
+					cursor: pointer;
+					display: block;
+				}
+			}
+		}
+	}
+}
+
+.pods-pick-checkbox ul, .pods-pick-radio ul {
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.pods-pick-values {
+	background: #FFF;
+	border: 1px solid #DFDFDF;
+	border-radius: 3px;
+	min-width: 125px;
+	overflow: auto;
+	padding: 2px 0;
+
+	ul {
+		overflow: auto;
+	}
+
+	li {
+		border-bottom: 1px solid #F4F4F4;
+		line-height: 1em;
+		margin: 0;
+		padding: 3px 6px 2px;
+
+		&:nth-child(even) {
+			background: #FCFCFC;
+		}
+	}
+
+	label {
+		padding-bottom: 3px;
+	}
+
+	li {
+		&:last-of-type {
+			border-bottom: 0;
+		}
+
+		.pods-field {
+			padding: 3px 0 2px;
+		}
+
+		.pods-boolean input {
+			top: 0;
+		}
+
+		&:hover {
+			background: #FFFFD8;
+		}
+	}
+}
+
+select.pods-pick-multi {
+	height: auto !important;
+}
+
+.pods-field, p.pods-add-file {
+	padding: 10px 0;
+}
+
+div.pods-textfield input, .pods-textarea textarea {
+	width: 100%;
+}
+
+.pods-date input, .pods-number input {
+	min-width: 125px;
+}

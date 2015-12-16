@@ -1,9 +1,16 @@
 <?php
-
 /**
  * @package Pods
- *
+ * @category Object Types
+ */
+
+/**
  * Class Pods_Object_Pod
+ *
+ * @property Pods_Object_Field[] $object_fields Object Fields
+ * @property Pods_Object_Field[] $fields Fields
+ * @property Pods_Object_Group[] $groups Object Groups
+ * @property array $table_info Table information for Object
  */
 class Pods_Object_Pod extends
 	Pods_Object {
@@ -215,7 +222,7 @@ class Pods_Object_Pod extends
 						$this->_is_fallback = true;
 
 						// Add labels
-						$object = array_merge( $object, get_object_vars( $taxonomy->labels ) );
+						$object = array_merge( get_object_vars( $taxonomy->labels ),  $object );
 
 						// @todo Import object settings and match up to Pod options
 						/*unset( $taxonomy->name );
@@ -353,7 +360,7 @@ class Pods_Object_Pod extends
 	 *
 	 * @return bool Whether the object is a fallback or not
 	 *
-	 * @since 3.0
+	 * @since 3.0.0
 	 */
 	public function is_fallback() {
 
@@ -1218,7 +1225,7 @@ class Pods_Object_Pod extends
 		}
 
 		$tableless_field_types    = Pods_Form::tableless_field_types();
-		$simple_tableless_objects = Pods_Form::field_method( 'pick', 'simple_objects' );
+		$simple_tableless_objects = Pods_Form::simple_tableless_objects();
 
 		$params = (object) $options;
 

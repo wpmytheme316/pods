@@ -1,19 +1,28 @@
 <?php
-
 /**
  * @package Pods
+ * @category Utilities
  */
 class Pods_View {
 
 	/**
 	 * @var array $cache_modes Array of available cache modes
 	 */
-	static $cache_modes = array( 'none', 'transient', 'site-transient', 'cache', 'option-cache' );
+	static $cache_modes = array(
+		'none',
+		'transient',
+		'site-transient',
+		'cache',
+		'option-cache'
+	);
 
 	/**
 	 * @return \Pods_View
 	 */
 	private function __construct() {
+
+		// Hulk smash
+
 	}
 
 	/**
@@ -41,11 +50,12 @@ class Pods_View {
 		 * @param bool|int|array $expires (optional) Time in seconds for the cache to expire, if 0 no expiration.
 		 * @param string $cache_mode (optional) Decides the caching method to use for the view.
 		 *
-		 * @returns The value of the first param.
+		 * @returns null The value of the first param.
 		 *
 		 * @since 2.4.1
 		 */
 		$filter_check = apply_filters( 'pods_view_alt_view', null, $view, $data, $expires, $cache_mode );
+
 		if ( !is_null( $filter_check ) ) {
 			return $filter_check;
 
@@ -82,6 +92,7 @@ class Pods_View {
 			$view_id = pods_evaluate_tags( $view_id );
 		}
 
+		// @todo Needs hook doc
 		$view = apply_filters( 'pods_view_inc', $view, $data, $expires, $cache_mode );
 
 		$view_key = $view;
@@ -120,10 +131,12 @@ class Pods_View {
 			self::set( 'pods-view-' . $cache_key . $view_id, $output, $expires, $cache_mode, 'pods_view' );
 		}
 
+		// @todo Needs hook doc
 		$output = apply_filters( 'pods_view_output_' . $cache_key, $output, $view, $data, $expires, $cache_mode );
 		$output = apply_filters( 'pods_view_output', $output, $view, $data, $expires, $cache_mode );
 
 		return $output;
+
 	}
 
 	/**
@@ -171,7 +184,7 @@ class Pods_View {
 
 		$called = false;
 
-		$pods_nocache = pods_var_raw( 'pods_nocache' );
+		$pods_nocache = pods_v( 'pods_nocache' );
 		$nocache      = array();
 
 		if ( pods_is_admin() && null !== $pods_nocache ) {
@@ -182,7 +195,9 @@ class Pods_View {
 			}
 		}
 
+		// @todo Needs hook doc
 		if ( apply_filters( 'pods_view_cache_alt_get', false, $cache_mode, $group_key . $key, $original_key, $group ) ) {
+			// @todo Needs hook doc
 			$value = apply_filters( 'pods_view_cache_alt_get_value', $value, $cache_mode, $group_key . $key, $original_key, $group );
 		} elseif ( 'transient' == $cache_mode && ! in_array( $cache_mode, $nocache ) ) {
 			$value = get_transient( $group_key . $key );
@@ -245,6 +260,7 @@ class Pods_View {
 			}
 
 			if ( false !== $value ) {
+				// @todo Needs hook doc
 				$value = apply_filters( 'transient_' . $key, $value );
 			}
 		} else {
@@ -260,9 +276,20 @@ class Pods_View {
 			}
 		}
 
+
+		/**
+		 * @todo Whenever WordPress fixes is_serialized (trac bug #17375) so that it recognizes 'C' as a valid
+		 * identifier, we can add a version_compare function here.
+		 */
+		if ( is_string( $value ) && preg_match( '/^C:[0-9]+:.+\}/s', $value ) ) {
+			$value = unserialize( $value );
+		}
+
+		// @todo Needs hook doc
 		$value = apply_filters( 'pods_view_get_' . $cache_mode, $value, $original_key, $group );
 
 		return $value;
+
 	}
 
 	/**
@@ -312,6 +339,7 @@ class Pods_View {
 			}
 		}
 
+		// @todo Needs hook doc
 		if ( apply_filters( 'pods_view_cache_alt_set', false, $cache_mode, $group_key . $key, $original_key, $value, $expires, $group ) ) {
 			return $value;
 		} elseif ( 'transient' == $cache_mode ) {
@@ -323,6 +351,7 @@ class Pods_View {
 		} elseif ( 'option-cache' == $cache_mode ) {
 			global $_wp_using_ext_object_cache;
 
+			// @todo Needs hook doc
 			$value = apply_filters( 'pre_set_transient_' . $key, $value );
 
 			if ( $_wp_using_ext_object_cache ) {
@@ -356,9 +385,11 @@ class Pods_View {
 			}
 		}
 
+		// @todo Needs hook doc
 		do_action( 'pods_view_set_' . $cache_mode, $original_key, $value, $expires, $group );
 
 		return $value;
+
 	}
 
 	/**
@@ -409,6 +440,7 @@ class Pods_View {
 			$full_key = $group_key . $key;
 		}
 
+		// @todo Needs hook doc
 		if ( apply_filters( 'pods_view_cache_alt_set', false, $cache_mode, $full_key, $original_key, '', 0, $group ) ) {
 			return true;
 		} elseif ( 'transient' == $cache_mode ) {
@@ -439,7 +471,7 @@ class Pods_View {
 			if ( true === $key ) {
 				wp_cache_flush();
 			} else {
-				wp_cache_delete( ( empty( $key ) ? 'pods_view' : $key ), 'pods_view' );
+				wp_cache_delete( ( empty( $key ) ? 'pods_view' : $key ), ( empty( $group ) ? 'pods_view' : $group ) );
 			}
 		} elseif ( 'option-cache' == $cache_mode ) {
 			global $_wp_using_ext_object_cache;
@@ -462,13 +494,16 @@ class Pods_View {
 			}
 
 			if ( $result ) {
+				// @todo Needs hook doc
 				do_action( 'deleted_transient', $key );
 			}
 		}
 
+		// @todo Needs hook doc
 		do_action( 'pods_view_clear_' . $cache_mode, $original_key, $group );
 
 		return true;
+
 	}
 
 	/**
@@ -508,6 +543,7 @@ class Pods_View {
 		$output = ob_get_clean();
 
 		return $output;
+
 	}
 
 	/**
@@ -547,7 +583,7 @@ class Pods_View {
 			return $_view;
 		}
 
-		// Keep it safe
+		// Keep it safe, stay thirsty my friends
 		$_view = trim( str_replace( array( '../', '\\' ), array( '', '/' ), (string) $_view ) );
 		$_view = preg_replace( '/\/+/', '/', $_view );
 
@@ -563,26 +599,35 @@ class Pods_View {
 
 		$located = false;
 
-		if ( false === strpos( $_real_view, realpath( WP_PLUGIN_DIR ) ) && false === strpos( $_real_view, realpath( WPMU_PLUGIN_DIR ) ) ) {
+		// Is the view's file somewhere within the plugin directory tree?
+		// Note: we explicitly whitelist PODS_DIR for the case of symlinks (see issue #2945)
+		if ( false !== strpos( $_real_view, realpath( WP_PLUGIN_DIR ) ) ||
+		     false !== strpos( $_real_view, realpath( WPMU_PLUGIN_DIR ) ) ||
+		     false !== strpos( $_real_view, PODS_DIR )
+		) {
+			if ( file_exists( $_view ) ) {
+				$located = $_view;
+			}
+			else {
+				// @todo Needs hook doc
+				$located = apply_filters( 'pods_view_locate_template', $located, $_view );
+			}
+		} else { // The view's file is outside the plugin directory
 			$_real_view = trim( $_real_view, '/' );
-
 			if ( empty( $_real_view ) ) {
 				return false;
 			}
-
+			// Allow views in the theme or child theme
 			if ( file_exists( realpath( get_stylesheet_directory() . '/' . $_real_view ) ) ) {
 				$located = realpath( get_stylesheet_directory() . '/' . $_real_view );
-			} elseif ( file_exists( realpath( get_template_directory() . '/' . $_real_view ) ) ) {
+			}
+			elseif ( file_exists( realpath( get_template_directory() . '/' . $_real_view ) ) ) {
 				$located = realpath( get_template_directory() . '/' . $_real_view );
 			}
-		} // Allow includes within plugins directory too for plugins utilizing this
-		elseif ( file_exists( $_view ) ) {
-			$located = $_view;
-		} else {
-			$located = apply_filters( 'pods_view_locate_template', $located, $_view );
 		}
 
 		return $located;
+
 	}
 
 	/**
@@ -664,5 +709,7 @@ class Pods_View {
 		}
 
 		return true;
+
 	}
+
 }

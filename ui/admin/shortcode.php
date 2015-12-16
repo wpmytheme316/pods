@@ -1,125 +1,132 @@
+<?php
+/**
+ * @package  Pods
+ * @category Admin
+ */
+?>
 <script type="text/javascript">
 var pods_shortcode_first = true;
 
-jQuery(function($) {
-	$('#pods_insert_shortcode').on('click',function(e) {
-		var form = $('#pods_shortcode_form_element'),
-			use_case = $('#pods_use_case_selector').val(),
-			pod_select = $('#pod_select').val(),
-			slug = $('#pod_slug').val(),
-			orderby = $('#pod_orderby').val(),
-			limit = $('#pod_limit').val(),
-			where = $('#pod_where').val(),
+jQuery( function ( $ ) {
+	$( '#pods_insert_shortcode' ).on( 'click', function ( e ) {
+		var form = $( '#pods_shortcode_form_element' ),
+			use_case = $( '#pods_use_case_selector' ).val(),
+			pod_select = $( '#pod_select' ).val(),
+			slug = $( '#pod_slug' ).val(),
+			orderby = $( '#pod_orderby' ).val(),
+			limit = $( '#pod_limit' ).val(),
+			where = $( '#pod_where' ).val(),
 			template = '',
 			pods_page = '',
-			template_custom = $('#pod_template_custom').val(),
-			field = $('#pod_field').val(),
-			fields = $('#pod_fields').val(),
-			label = $('#pod_label').val(),
-			thank_you = $('#pod_thank_you').val(),
-			view = $('#pod_view').val(),
-			cache_mode = $('#pod_cache_mode').val(),
-			expires = $('#pod_expires').val(),
-			filters = $('#pod_filters').val(),
-			filters_label = $('#pod_filters_label').val(),
-			filters_location = $('#pod_filters_location').val(),
-			pagination = $('#pod_pagination').prop('checked'),
-			pagination_label = $('#pod_pagination_label').val(),
-			pagination_location = $('#pod_pagination_location').val(),
-			pagination_type = $('#pod_pagination_type').val(),
-			before = $('#pod_before').val(),
-			after = $('#pod_after').val(),
-			shortcodes = $('#pod_shortcodes').prop('checked');
+			template_custom = $( '#pod_template_custom' ).val(),
+			field = $( '#pod_field' ).val(),
+			fields = $( '#pod_fields' ).val(),
+			label = $( '#pod_label' ).val(),
+			thank_you = $( '#pod_thank_you' ).val(),
+			view = $( '#pod_view' ).val(),
+			cache_mode = $( '#pod_cache_mode' ).val(),
+			expires = $( '#pod_expires' ).val(),
+			template = $( '#pod_template' ).val(),
+			filters = $( '#pod_filters' ).val(),
+			filters_label = $( '#pod_filters_label' ).val(),
+			filters_location = $( '#pod_filters_location' ).val(),
+			pagination = $( '#pod_pagination' ).prop( 'checked' ),
+			pagination_label = $( '#pod_pagination_label' ).val(),
+			pagination_location = $( '#pod_pagination_location' ).val(),
+			pagination_type = $( '#pod_pagination_type' ).val(),
+			before = $( '#pod_before' ).val(),
+			after = $( '#pod_after' ).val(),
+			shortcodes = $( '#pod_shortcodes' ).prop( 'checked' );
 
 		<?php if ( class_exists( 'Pods_Pages' ) ) { ?>
-		pods_page = $('#pods_page').val();
+		pods_page = $( '#pods_page' ).val();
 		<?php } ?>
 
 		// Slash and burn
-		pod_select = ( pod_select + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		slug = ( slug + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		orderby = ( orderby + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		limit = ( limit + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		where = ( where + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		template = ( template + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		pods_page = ( pods_page + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		field = ( field + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		fields = ( fields + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		label = ( label + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		thank_you = ( thank_you + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		view = ( view + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		cache_mode = ( cache_mode + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		expires = ( expires + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		filters = ( before + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		filters_label = ( after + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		pagination_label = ( after + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		before = ( before + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
-		after = ( after + '' ).replace(/\\"/g,'\\$&').replace(/\u0000/g,'\\0');
+		pod_select = ( pod_select + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		slug = ( slug + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		orderby = ( orderby + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		limit = ( limit + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		where = ( where + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		template = ( template + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		pods_page = ( pods_page + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		field = ( field + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		fields = ( fields + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		label = ( label + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		thank_you = ( thank_you + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		view = ( view + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		cache_mode = ( cache_mode + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		expires = ( expires + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		filters = ( before + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		filters_label = ( after + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		pagination_label = ( after + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		before = ( before + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
+		after = ( after + '' ).replace( /\\"/g, '\\$&' ).replace( /\u0000/g, '\\0' );
 
 		// Validate the form
 		var errors = [];
 
-		switch(use_case) {
+		switch ( use_case ) {
 			case 'single':
-				if(!pod_select || !pod_select.length) {
-					errors.push("Pod");
+				if ( !pod_select || !pod_select.length ) {
+					errors.push( "Pod" );
 				}
-				if(!slug || !slug.length) {
-					errors.push("Slug or ID");
+				if ( !slug || !slug.length ) {
+					errors.push( "Slug or ID" );
 				}
-				if(( !template || !template.length ) && ( !template_custom || !template_custom.length )) {
-					errors.push("Template");
+				if ( ( !template || !template.length ) && ( !template_custom || !template_custom.length ) ) {
+					errors.push( "Template" );
 				}
 				break;
 
 			case 'list':
-				if(!pod_select || !pod_select.length) {
-					errors.push("Pod");
+				if ( !pod_select || !pod_select.length ) {
+					errors.push( "Pod" );
 				}
-				if(( !template || !template.length ) && ( !template_custom || !template_custom.length )) {
-					errors.push("Template");
+				if ( ( !template || !template.length ) && ( !template_custom || !template_custom.length ) ) {
+					errors.push( "Template" );
 				}
 				break;
 
 			case 'field':
-				if(!pod_select || !pod_select.length) {
-					errors.push("Pod");
+				if ( !pod_select || !pod_select.length ) {
+					errors.push( "Pod" );
 				}
-				if(!slug || !slug.length) {
-					errors.push("ID or Slug");
+				if ( !slug || !slug.length ) {
+					errors.push( "ID or Slug" );
 				}
-				if(!field || !field.length) {
-					errors.push("Field");
+				if ( !field || !field.length ) {
+					errors.push( "Field" );
 				}
 				break;
 
 			case 'field-current':
-				if(!field || !field.length) {
-					errors.push("Field");
+				if ( !field || !field.length ) {
+					errors.push( "Field" );
 				}
 				break;
 
 			case 'form':
-				if(!pod_select || !pod_select.length) {
-					errors.push("Pod");
+				if ( !pod_select || !pod_select.length ) {
+					errors.push( "Pod" );
 				}
 				break;
 
 			case 'view':
-				if(!view || !view.length) {
-					errors.push("File to include");
+				if ( !view || !view.length ) {
+					errors.push( "File to include" );
 				}
 				break;
 
 			case 'page':
-				if(!pods_page || !pods_page.length) {
-					errors.push("Pod Page");
+				if ( !pods_page || !pods_page.length ) {
+					errors.push( "Pod Page" );
 				}
 				break;
 		}
 
-		if(errors.length) {
-			alert("The following fields are required:\n" + errors.join("\n"));
+		if ( errors.length ) {
+			alert( "The following fields are required:\n" + errors.join( "\n" ) );
 
 			e.preventDefault();
 
@@ -128,228 +135,228 @@ jQuery(function($) {
 
 		var shortcode = '[pods';
 
-		if('single' == use_case) {
-			if(pod_select.length) {
+		if ( 'single' == use_case ) {
+			if ( pod_select.length ) {
 				shortcode += ' name="' + pod_select + '"';
 			}
 
-			if(slug.length) {
+			if ( slug.length ) {
 				shortcode += ' slug="' + slug + '"';
 			}
 
-			if(template.length) {
+			if ( template.length ) {
 				shortcode += ' template="' + template + '"';
 			}
 		}
-		else if('list' == use_case) {
-			if(pod_select.length) {
+		else if ( 'list' == use_case ) {
+			if ( pod_select.length ) {
 				shortcode += ' name="' + pod_select + '"';
 			}
 
-			if(orderby.length) {
+			if ( orderby.length ) {
 				shortcode += ' orderby="' + orderby + '"';
 			}
 
-			if(limit.length) {
+			if ( limit.length ) {
 				shortcode += ' limit="' + limit + '"';
 			}
 
-			if(where.length) {
+			if ( where.length ) {
 				shortcode += ' where="' + where + '"';
 			}
 
-			if(template.length) {
+			if ( template.length ) {
 				shortcode += ' template="' + template + '"';
 			}
 
-			if(filters.length) {
+			if ( filters.length ) {
 				shortcode += ' filters="' + filters + '"';
 
-				if(filters_label.length) {
+				if ( filters_label.length ) {
 					shortcode += ' filters_label="' + filters_label + '"';
 				}
 
-				if(filters_location.length) {
+				if ( filters_location.length ) {
 					shortcode += ' filters_location="' + filters_location + '"';
 				}
 			}
 
-			if(pagination) {
+			if ( pagination ) {
 				shortcode += ' pagination="1"';
 
-				if(pagination_label.length) {
+				if ( pagination_label.length ) {
 					shortcode += ' pagination_label="' + pagination_label + '"';
 				}
 
-				if(pagination_location.length) {
+				if ( pagination_location.length ) {
 					shortcode += ' pagination_location="' + pagination_location + '"';
 				}
 
-				if(pagination_type.length) {
+				if ( pagination_type.length ) {
 					shortcode += ' pagination_type="' + pagination_type + '"';
 				}
 			}
 		}
-		else if('field' == use_case) {
-			if(pod_select.length) {
+		else if ( 'field' == use_case ) {
+			if ( pod_select.length ) {
 				shortcode += ' name="' + pod_select + '"';
 			}
 
-			if(slug.length) {
+			if ( slug.length ) {
 				shortcode += ' slug="' + slug + '"';
 			}
 
-			if(field.length) {
+			if ( field.length ) {
 				shortcode += ' field="' + field + '"';
 			}
 
 		}
-		else if('field-current' == use_case) {
-			if(field.length) {
+		else if ( 'field-current' == use_case ) {
+			if ( field.length ) {
 				shortcode += ' field="' + field + '"';
 			}
 
 		}
-		else if('form' == use_case) {
-			if(pod_select.length) {
+		else if ( 'form' == use_case ) {
+			if ( pod_select.length ) {
 				shortcode += ' name="' + pod_select + '"';
 			}
 
-			if(slug.length) {
+			if ( slug.length ) {
 				shortcode += ' slug="' + slug + '"';
 			}
 
-			if(fields.length || label.length || thank_you.length) {
+			if ( fields.length || label.length || thank_you.length ) {
 				shortcode += ' form="1"';
 			}
 
-			if(fields.length) {
+			if ( fields.length ) {
 				shortcode += ' fields="' + fields + '"';
 			}
 
-			if(label.length) {
+			if ( label.length ) {
 				shortcode += ' label="' + label + '"';
 			}
 
-			if(thank_you.length) {
+			if ( thank_you.length ) {
 				shortcode += ' thank_you="' + thank_you + '"';
 			}
 
 		}
-		else if('view' == use_case) {
-			if(view.length) {
+		else if ( 'view' == use_case ) {
+			if ( view.length ) {
 				shortcode += ' view="' + view + '"';
 			}
 
-			if(cache_mode.length && 'none' != cache_mode) {
+			if ( cache_mode.length && 'none' != cache_mode ) {
 				shortcode += ' cache_mode="' + cache_mode + '"';
 
-				if(expires.length) {
+				if ( expires.length ) {
 					shortcode += ' expires="' + expires + '"';
 				}
 			}
 		}
-		else if('page' == use_case) {
-			if(pods_page.length) {
+		else if ( 'page' == use_case ) {
+			if ( pods_page.length ) {
 				shortcode += ' pods_page="' + pods_page + '"';
 			}
 		}
 
-		if(before.length) {
+		if ( before.length ) {
 			shortcode += ' before="' + before + '"';
 		}
 
-		if(after.length) {
+		if ( after.length ) {
 			shortcode += ' after="' + after + '"';
 		}
 
-		if(shortcodes) {
+		if ( shortcodes ) {
 			shortcode += ' shortcodes="1"';
 		}
 
 		shortcode += ']';
 
-		if(( 'single' == use_case || 'list' == use_case ) && template_custom && template_custom.length) {
-			shortcode += '<br />' + template_custom.replace(/\n/g,'<br />') + '<br />[/pods]';
+		if ( ( 'single' == use_case || 'list' == use_case ) && template_custom && template_custom.length ) {
+			shortcode += '<br />' + template_custom.replace( /\n/g, '<br />' ) + '<br />[/pods]';
 		}
 
-		window.send_to_editor(shortcode);
+		window.send_to_editor( shortcode );
 
 		e.preventDefault();
-	});
+	} );
 
-	$('#pod_cache_mode').on('change',function() {
-		var $this = $(this);
+	$( '#pod_cache_mode' ).on( 'change', function () {
+		var $this = $( this );
 
-		if('none' == $this.val()) {
-			$(this).closest('.pods-section').addClass('hide');
+		if ( 'none' == $this.val() ) {
+			$( this ).closest( '.pods-section' ).addClass( 'hide' );
 		}
 		else {
-			$(this).closest('.pods-section').removeClass('hide');
+			$( this ).closest( '.pods-section' ).removeClass( 'hide' );
 		}
-	});
+	} );
 
-	var $useCaseSelector = $('#pods_use_case_selector');
+	var $useCaseSelector = $( '#pods_use_case_selector' );
 
-	$useCaseSelector.on('change',function() {
-		var val = $(this).val();
+	$useCaseSelector.on( 'change', function () {
+		var val = $( this ).val();
 
-		$('.pods-section').addClass('hide');
+		$( '.pods-section' ).addClass( 'hide' );
 
-		switch(val) {
+		switch ( val ) {
 			case 'single':
-				$('#pod_select, #pod_slug, #pod_template, #pod_template_custom, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_select, #pod_slug, #pod_template, #pod_template_custom, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			case 'list':
-				$('#pod_select, #pod_limit, #pod_orderby, #pod_where, #pod_template, #pod_template_custom, #pod_cache_mode, #pod_expires, #pod_filters, #pod_filters_label, #pod_filters_location, #pod_pagination, #pod_pagination_label, #pod_pagination_location, #pod_pagination_type, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_select, #pod_limit, #pod_orderby, #pod_where, #pod_template, #pod_template_custom, #pod_cache_mode, #pod_expires, #pod_filters, #pod_filters_label, #pod_filters_location, #pod_pagination, #pod_pagination_label, #pod_pagination_location, #pod_pagination_type, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			case 'field':
-				$('#pod_select, #pod_slug, #pod_field, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_select, #pod_slug, #pod_field, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			case 'field-current':
-				$('#pod_field, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_field, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			case 'form':
-				$('#pod_select, #pod_slug, #pod_fields, #pod_label, #pod_thank_you, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_select, #pod_slug, #pod_fields, #pod_label, #pod_thank_you, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			case 'view':
-				$('#pod_view, #pod_cache_mode, #pod_expires, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pod_view, #pod_cache_mode, #pod_expires, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 
 			<?php if ( class_exists( 'Pods_Pages' ) ) { ?>
 			case 'page':
-				$('#pods_page, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode').each(function() {
-					$(this).closest('.pods-section').removeClass('hide');
-				})
+				$( '#pods_page, #pod_before, #pod_after, #pod_shortcodes, #pods_insert_shortcode' ).each( function () {
+					$( this ).closest( '.pods-section' ).removeClass( 'hide' );
+				} )
 				break;
 			<?php } ?>
 		}
 
 		// Fix for TB ajaxContent not picking up the height on the first open
-		if(pods_shortcode_first) {
-			$('#TB_ajaxContent').css({ width : 'auto',height : '91%' });
+		if ( pods_shortcode_first ) {
+			$( '#TB_ajaxContent' ).css( {width : 'auto', height : '91%'} );
 
 			pods_shortcode_first = false;
 		}
-	});
-});
+	} );
+} );
 </script>
 
 <style type="text/css">
@@ -358,7 +365,7 @@ jQuery(function($) {
 		font-weight: normal;
 		color: #5a5a5a;
 		font-size: 1.8em;
-		background: url(<?php echo PODS_URL; ?>ui/images/icon32.png) top left no-repeat;
+		background: url(<?php echo esc_url( PODS_URL ); ?>ui/images/icon32.png) top left no-repeat;
 		padding: 8px 0 5px 36px;
 		margin-top: 0;
 	}
@@ -412,8 +419,8 @@ jQuery(function($) {
 
 <div class="pods-section hide">
 	<?php
-	$api       = pods_api();
-	$all_pods  = $api->load_pods( array( 'names' => true ) );
+	$api = pods_api();
+	$all_pods = $api->load_pods( array( 'names' => true ) );
 	$pod_count = count( $all_pods );
 	?>
 	<label for="pod_select"><?php _e( 'Choose a Pod', 'pods' ); ?></label>
@@ -421,8 +428,8 @@ jQuery(function($) {
 	<?php if ( $pod_count > 0 ) { ?>
 		<select id="pod_select" name="pod_select">
 			<?php foreach ( $all_pods as $pod_name => $pod_label ) { ?>
-				<option value="<?php echo $pod_name; ?>">
-					<?php echo $pod_label . ' (' . $pod_name . ')'; ?>
+				<option value="<?php echo esc_attr( $pod_name ); ?>">
+					<?php echo esc_html( $pod_label . ' (' . $pod_name . ')' ); ?>
 				</option>
 			<?php } ?>
 		</select>
@@ -436,7 +443,7 @@ jQuery(function($) {
 <?php if ( class_exists( 'Pods_Templates' ) ) { ?>
 	<div class="pods-section hide">
 		<?php
-		$templates      = $api->load_templates();
+		$templates = $api->load_templates();
 		$template_count = count( $templates );
 		?>
 		<label for="pod_template"><?php _e( 'Template', 'pods' ); ?></label>
@@ -445,8 +452,8 @@ jQuery(function($) {
 			<option value="" SELECTED>- <?php _e( 'Custom Template', 'pods' ); ?> -</option>
 
 			<?php foreach ( $templates as $tmpl ) { ?>
-				<option value="<?php echo $tmpl['name']; ?>">
-					<?php echo $tmpl['name']; ?>
+				<option value="<?php echo esc_attr( $tmpl[ 'name' ] ); ?>">
+					<?php echo esc_html( $tmpl[ 'name' ] ); ?>
 				</option>
 			<?php } ?>
 		</select>
@@ -466,21 +473,21 @@ jQuery(function($) {
 <div class="pods-section hide">
 	<label for="pod_template_custom"><?php _e( 'Custom Template', 'pods' ); ?></label>
 
-	<textarea name="pod_template_custom" id="pod_template_custom" cols="10" rows="10"></textarea>
+	<textarea name="pod_template_custom" id="pod_template_custom" cols="10" rows="10" class="widefat"></textarea>
 </div>
 
 <?php if ( class_exists( 'Pods_Pages' ) ) { ?>
 	<div class="pods-section hide">
 		<?php
-		$pages      = $api->load_pages();
+		$pages = $api->load_pages();
 		$page_count = count( $pages );
 		?>
 		<label for="pods_page"><?php _e( 'Pods Page', 'pods' ); ?></label>
 
 		<select id="pods_page" name="pods_page">
 			<?php foreach ( $pages as $tmpl ) { ?>
-				<option value="<?php echo $tmpl['name']; ?>">
-					<?php echo $tmpl['name']; ?>
+				<option value="<?php echo esc_attr( $tmpl[ 'name' ] ); ?>">
+					<?php echo esc_html( $tmpl[ 'name' ] ); ?>
 				</option>
 			<?php } ?>
 		</select>
@@ -556,7 +563,7 @@ jQuery(function($) {
 	?>
 	<select id="pod_cache_mode" name="pod_cache_mode">
 		<?php foreach ( $cache_modes as $cache_mode_option => $cache_mode_label ): ?>
-			<option value="<?php echo $cache_mode_option; ?>"<?php echo( $default_cache_mode == $cache_mode_option ? ' SELECTED' : '' ); ?>>
+			<option value="<?php echo esc_attr( $cache_mode_option ); ?>"<?php selected( $default_cache_mode, $cache_mode_option ); ?>>
 				<?php echo esc_html( $cache_mode_label ); ?>
 			</option>
 		<?php endforeach; ?>

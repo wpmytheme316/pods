@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Component managing class
  *
  * @package Pods
+ * @category Utilities
  */
 class Pods_Components {
 
@@ -25,7 +25,7 @@ class Pods_Components {
 	/**
 	 * Available components
 	 *
-	 * @var string
+	 * @var array
 	 *
 	 * @since 2.0
 	 */
@@ -48,11 +48,13 @@ class Pods_Components {
 	 * @since 2.3.5
 	 */
 	public static function init() {
+
 		if ( ! is_object( self::$instance ) ) {
 			self::$instance = new Pods_Components();
 		}
 
 		return self::$instance;
+
 	}
 
 	/**
@@ -63,6 +65,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function __construct() {
+
 		$this->components_dir = realpath( apply_filters( 'pods_components_dir', PODS_DIR . 'components' ) ) . '/';
 
 		$settings = get_option( 'pods_component_settings', '' );
@@ -89,6 +92,7 @@ class Pods_Components {
 			// Add the Pods Components capabilities
 			add_filter( 'members_get_capabilities', array( $this, 'admin_capabilities' ) );
 		}
+
 	}
 
 	/**
@@ -101,9 +105,12 @@ class Pods_Components {
 	 * @uses  add_submenu_page
 	 */
 	public function menu( $parent ) {
+
 		global $submenu;
 
 		$custom_component_menus = array();
+
+		$pods_component_menu_items = array();
 
 		foreach ( $this->components as $component => $component_data ) {
 			$component_data['MustUse'] = apply_filters( 'pods_component_require_' . $component_data['ID'], $component_data['MustUse'], $component_data );
@@ -160,15 +167,58 @@ class Pods_Components {
 				$custom_component_menus[ $menu_page ] = $component_data;
 			}
 
-			$page = add_submenu_page( $parent,
-				strip_tags( $component_data['Name'] ),
-				'- ' . strip_tags( $component_data['MenuName'] ),
-				'read',
-				$menu_page,
-				array( $this, 'admin_handler' ) );
+			$pods_component_menu_items[ $component_data[ 'MenuName' ] ] = array(
+				'menu_page' => $menu_page,
+				'page_title' => $component_data[ 'Name' ],
+				'capability' => 'read',
+				'callback' => array( $this, 'admin_handler' )
+			);
 
-			if ( isset( $component_data['object'] ) && method_exists( $component_data['object'], 'admin_assets' ) ) {
-				add_action( 'admin_print_styles-' . $page, array( $component_data['object'], 'admin_assets' ) );
+            if ( isset( $component_data[ 'object' ] ) && method_exists( $component_data[ 'object' ], 'admin_assets' ) ) {
+				$pods_component_menu_items[ $component_data[ 'MenuName' ] ][ 'assets' ] = array( $component_data[ 'object' ], 'admin_assets' );
+			}
+		}
+
+		/**
+		 * Add or change the items in the Pods Components Submenu.
+		 *
+		 * Can also be used to change which menu components is a submenu of or change title of menu.
+		 *
+		 * @params array $pods_component_menu_items {
+		 *          An array of arguments for add_submenu_page
+		 *
+		 *		  	@param string $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page)
+		 *		  	@param string $page_title The text to be displayed in the title tags of the page when the menu is selected
+		 *		  	@param $menu_title The text to be used for the menu
+		 *		  	@param $capability The capability required for this menu to be displayed to the user.
+		 *		  	@param $menu_slug The slug name to refer to this menu by (should be unique for this menu)
+		 *		  	@param $function The function to be called to output the content for this page.
+		 * }
+		 *
+		 * @returns array Array of submenu pages to be passed to add_submenu_page()
+		 *
+		 * @since 2.4.1
+		 */
+		$pods_component_menu_items = apply_filters( 'pods_admin_components_menu', $pods_component_menu_items );
+
+		ksort( $pods_component_menu_items );
+
+		foreach ( $pods_component_menu_items as $menu_title => $menu_data ) {
+			if ( !is_callable( $menu_data[ 'callback' ] ) ) {
+				continue;
+			}
+
+            $page = add_submenu_page(
+                $parent,
+                strip_tags( $menu_data[ 'page_title' ] ),
+                '- ' . strip_tags( $menu_title ),
+				pods_v( 'capability', $menu_data, 'read', true ),
+                $menu_data[ 'menu_page' ],
+                $menu_data[ 'callback' ]
+            );
+
+			if ( isset( $menu_data[ 'assets' ] ) && is_callable( $menu_data[ 'assets' ] ) ) {
+                add_action( 'admin_print_styles-' . $page, $menu_data[ 'assets' ] );
 			}
 		}
 
@@ -198,6 +248,7 @@ class Pods_Components {
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -206,6 +257,8 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function load() {
+
+		// @todo Needs hook doc
 		do_action( 'pods_components_load' );
 
 		foreach ( (array) $this->components as $component => $component_data ) {
@@ -271,11 +324,16 @@ class Pods_Components {
 				if ( method_exists( $this->components[ $component ]['object'], 'handler' ) ) {
 					$this->components[ $component ]['object']->handler( $this->settings['components'][ $component ] );
 				}
-				if (method_exists($this->components[$component]['object'],'register_services')) {
-					add_action('pods_register_services',array($this->components[$component]['object'],'register_services'));
+
+				if ( method_exists( $this->components[ $component ][ 'object' ], 'register_services' ) ) {
+					add_action( 'pods_register_services', array(
+						$this->components[ $component ][ 'object' ],
+						'register_services'
+					) );
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -284,6 +342,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function get_components() {
+
 		$components = pods_transient_get( 'pods_components' );
 
 		if ( 1 == pods_v( 'pods_debug_components', 'get', 0 ) && pods_is_admin( array( 'pods' ) ) ) {
@@ -394,7 +453,7 @@ class Pods_Components {
 				}
 
 				if ( empty( $component_data['Class'] ) ) {
-					$component_data['Class'] = 'Pods_' . pods_clean_name( basename( $component, '.php' ), false );
+					$component_data['Class'] = 'Pods_' . pods_js_name( basename( $component, '.php' ), false );
 				}
 
 				if ( empty( $component_data['ID'] ) ) {
@@ -444,6 +503,7 @@ class Pods_Components {
 		$this->components = $components;
 
 		return $this->components;
+
 	}
 
 	/**
@@ -455,6 +515,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function options( $component, $options ) {
+
 		if ( ! isset( $this->settings['components'][ $component ] ) || ! is_array( $this->settings['components'][ $component ] ) ) {
 			$this->settings['components'][ $component ] = array();
 		}
@@ -464,6 +525,7 @@ class Pods_Components {
 				$this->settings['components'][ $component ][ $option ] = $data['default'];
 			}
 		}
+
 	}
 
 	/**
@@ -472,6 +534,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function admin_handler() {
+
 		$component = str_replace( 'pods-component-', '', $_GET['page'] );
 
 		if ( isset( $this->components[ $component ] ) && isset( $this->components[ $component ]['object'] ) && is_object( $this->components[ $component ]['object'] ) ) {
@@ -488,6 +551,7 @@ class Pods_Components {
 				$this->admin( $this->components[ $component ]['object']->options( $this->settings['components'][ $component ] ), $this->settings['components'][ $component ], $component );
 			}
 		}
+
 	}
 
 	/**
@@ -496,6 +560,7 @@ class Pods_Components {
 	 * @param $component
 	 */
 	public function admin( $options, $settings, $component ) {
+
 		if ( ! isset( $this->components[ $component ] ) ) {
 			wp_die( 'Invalid Component' );
 		}
@@ -503,6 +568,7 @@ class Pods_Components {
 		$component_label = $this->components[ $component ]['Name'];
 
 		include PODS_DIR . 'ui/admin/components-admin.php';
+
 	}
 
 	/**
@@ -515,6 +581,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function toggle( $component ) {
+
 		$toggle = null;
 
 		if ( isset( $this->components[ $component ] ) ) {
@@ -532,6 +599,7 @@ class Pods_Components {
 		update_option( 'pods_component_settings', $settings );
 
 		return $toggle;
+
 	}
 
 	/**
@@ -542,6 +610,7 @@ class Pods_Components {
 	 * @return array
 	 */
 	public function admin_capabilities( $capabilities ) {
+
 		foreach ( $this->components as $component => $component_data ) {
 			if ( ! empty( $component_data['Hide'] ) ) {
 				continue;
@@ -571,6 +640,7 @@ class Pods_Components {
 		}
 
 		return $capabilities;
+
 	}
 
 	/**
@@ -579,6 +649,7 @@ class Pods_Components {
 	 * @since 2.0
 	 */
 	public function admin_ajax() {
+
 		if ( false === headers_sent() ) {
 			pods_session_start();
 
@@ -642,6 +713,7 @@ class Pods_Components {
 		}
 
 		die(); // KBAI!
+
 	}
 
 	/**
@@ -651,6 +723,7 @@ class Pods_Components {
 	 * @return string
 	 */
 	public function admin_ajax_settings( $component, $params ) {
+
 		if ( ! isset( $this->components[ $component ] ) ) {
 			wp_die( 'Invalid Component' );
 		} elseif ( ! method_exists( $this->components[ $component ]['object'], 'options' ) ) {
@@ -684,5 +757,7 @@ class Pods_Components {
 		update_option( 'pods_component_settings', $settings );
 
 		return '1';
+
 	}
+
 }
