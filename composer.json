@@ -53,7 +53,7 @@
     "freemius/wordpress-sdk": "2.3.2"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "wp-coding-standards/wpcs": "^2.1",
     "automattic/vipwpcs": "^2.0",
     "moderntribe/TribalScents": "dev-master",
